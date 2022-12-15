@@ -345,7 +345,51 @@ python3.7 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 jupyter notebook --ip=127.0.0.1
-```# FMDEV-ROBERTO
-# FMDEV-ROBERTO
-# FMDEV-ROBERTO
-# FMDEV-ROBERTO
+```
+
+# 4. Cluster
+
+descompactar na pasta de sua preferência o arquivo cluster.zip.
+
+```sh
+docker compose up 
+```
+
+```sh
+ docker exec -it master /bin/bash
+```
+
+Renomear o container criado para "master".
+
+Na primeira vez o script vai configurar, formatar HDFS e inicializar Yarn, Hadoop e Spark
+
+Nos usos subsequentes, você precisará acessar o master (comando 3) e executar
+
+```sh
+$ ./user_data/admin/fiatlux.sh
+```
+
+Principais portas 
+
+ports:
+      - "8088:8088" # ResourceManager
+      - "50070:50070" # NameNode WebUI
+      - "10015:10015" # HDFS
+      - "8080:8080" # WebUI Spark Master
+      - "8042:8042" # NodeManager
+      - "8888:8888" # Jupyter
+      - "4040:4040" # Spark
+```
+
+[ResourceManager](https://localhost:8088:8088)
+[WebUI NameNode ](https://localhost:50070:50070)
+[HDFS](https://localhost:10015:10015)
+[WebUI Spark Master](https://localhost:8080:8080)
+[NodeManager](https://localhost:8042:8042)
+[Jupyter](https://localhost:8888:8888)
+[Spark](https://localhost:4040:4040)
+
+
+
+
+
