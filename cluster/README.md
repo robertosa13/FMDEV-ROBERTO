@@ -1,5 +1,6 @@
 # Cluster Big Data:
 
+O objetivo deste repositório é funcionar como um mini-cluster, tendo todas as configurações básicas realizadas para as tecnologias distribuídas como Hadoop e Spark (até então). Pode-se utilizá-lo como referência para configurações, ou mesmo como uma ferramenta para análises exploratórias de datasets de interesse. A constituição deste repositório levou em conta os trabalhos <a href="https://lemaizi.com/blog/creating-your-own-micro-cluster-lab-using-docker-to-experiment-with-spark-dask-on-yarn/">Amine Lemaizi</a> e <a href="https://github.com/gbieul/spyrk-cluster">Gabriel (gbieul)</a>. 
 
 Versões: 
 - Hadoop 3.3.3

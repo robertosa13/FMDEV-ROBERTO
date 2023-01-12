@@ -9,7 +9,8 @@ import { Creators as ScreenActions } from '../../store/ducks/screen';
 import AddIcon from 'react-feather/dist/icons/plus-circle';
 import TranModelIcon from 'react-feather/dist/icons/package';
 import MonitorIcon from 'react-feather/dist/icons/monitor';
-import { DATASOURCE, TRAIN_MODEL, ADD_TRAIN, LAD } from '../../constants';
+import CpuIcon from 'react-feather/dist/icons/cpu';
+import { DATASOURCE, TRAIN_MODEL, ADD_TRAIN, LAD, CLUSTER } from '../../constants';
 
 class SideMenu extends Component {
 
@@ -41,7 +42,15 @@ class SideMenu extends Component {
         screen: TRAIN_MODEL,
         component: TRAIN_MODEL,
         icon: <TranModelIcon color={'#FFF'} strokeWidth={this.getStrokeWidth(TRAIN_MODEL)} />
-      }
+      },
+      {
+        screen: CLUSTER,
+        component: CLUSTER,
+        icon: <CpuIcon color={'#FFF'} strokeWidth={this.getStrokeWidth(CLUSTER)} />
+      },   
+
+
+
     ];
 
     return (

@@ -352,7 +352,8 @@ jupyter notebook --ip=127.0.0.1
 descompactar na pasta de sua preferência o arquivo cluster.zip.
 
 ```sh
-docker compose up 
+cd cluster/docker
+docker compose up master
 ```
 
 ```sh
@@ -363,14 +364,27 @@ Renomear o container criado para "master".
 
 Na primeira vez o script vai configurar, formatar HDFS e inicializar Yarn, Hadoop e Spark
 
-Nos usos subsequentes, você precisará acessar o master (comando 3) e executar
+Nos usos subsequentes, você precisará acessar o master (comando 3) e executar:
 
 ```sh
 $ ./user_data/admin/fiatlux.sh
 ```
 
-Principais portas 
+Instalar o iprout2 no container:
 
+```sh
+apt install iproute2
+```
+
+Verificar o ip no container
+
+```sh
+ip addr show
+```
+172.17.0.3
+
+Principais portas
+```sh
 ports:
       - "8088:8088" # ResourceManager
       - "50070:50070" # NameNode WebUI
@@ -379,8 +393,10 @@ ports:
       - "8042:8042" # NodeManager
       - "8888:8888" # Jupyter
       - "4040:4040" # Spark
+
 ```
 
+```sh
 [ResourceManager](https://localhost:8088:8088)
 [WebUI NameNode ](https://localhost:50070:50070)
 [HDFS](https://localhost:10015:10015)
@@ -388,8 +404,6 @@ ports:
 [NodeManager](https://localhost:8042:8042)
 [Jupyter](https://localhost:8888:8888)
 [Spark](https://localhost:4040:4040)
-
-
-
+```
 
 
