@@ -1,7 +1,9 @@
+
+from flask import Flask
 from flask import Flask
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager, create_access_token
+from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
@@ -23,4 +25,6 @@ def create_app(config_filename):
 
 if __name__ == "__main__":
     app = create_app("config")
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='127.0.0.1')
+    #app.run(debug=True, host='0.0.0.0')
+

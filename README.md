@@ -352,7 +352,13 @@ jupyter notebook --ip=127.0.0.1
 descompactar na pasta de sua preferência o arquivo cluster.zip.
 
 ```sh
-docker compose up 
+cd cluster
+make -f Makefile
+```
+
+```sh
+ls
+
 ```
 
 ```sh
@@ -367,6 +373,7 @@ Nos usos subsequentes, você precisará acessar o master (comando 3) e executar
 
 ```sh
 $ ./user_data/admin/fiatlux.sh
+bash ./user_data/admin/fiatlux.sh
 ```
 
 Principais portas 

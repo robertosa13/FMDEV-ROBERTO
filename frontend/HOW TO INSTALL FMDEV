@@ -274,3 +274,22 @@ git push -u origin main
 quando upar try_files
 git init
 */
+
+
+# To activate this environment, use
+#
+#     $ conda activate py37
+#
+# To deactivate an active environment, use
+#
+#     $ conda deactivate
+
+
+## create empty environment
+#conda create -n py37
+## activate
+#conda activate py37
+## use x86_64 architecture channel(s)
+#conda config --env --set subdir osx-64
+## install python, numpy, etc. (add more packages here...)
+#conda install python=3.7

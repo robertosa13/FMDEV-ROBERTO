@@ -11,7 +11,9 @@ from resources.Indicator import Indicator
 from resources.PreProcessing import PreProcessing
 from resources.Train import Train
 from resources.TrainStatus import TrainStatus
+print("teste2")
 from resources.TrainModel import TrainModelResource
+print("teste")
 from resources.TrainMetric import TrainMetric
 from resources.ModelCopy import ModelCopy
 from resources.Predict import Predict

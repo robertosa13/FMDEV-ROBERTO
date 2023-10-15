@@ -1,0 +1,37 @@
+/* styles.css */
+
+/* Estilo para o contêiner do formulário */
+.form-content {
+  margin: 5rem;
+  margin-top: 20px; /* Adicione a margem superior desejada */
+  display: flex; /* Use flexbox para alinhar elementos horizontalmente */
+  flex-direction: row; /* Alinhar os elementos em uma linha horizontal */
+  justify-content: space-between; /* Distribuir espaço entre os grupos */
+  gap: 10px; /* Espaço entre os grupos de campos */
+  flex-wrap: wrap; /* Quebra a linha quando não houver espaço suficiente */
+}
+
+/* Estilo para os grupos de campos */
+.form-group {
+  display: flex; /* Use flexbox para alinhar verticalmente rótulos e inputs */
+  flex-direction: column; /* Alinhar os elementos verticalmente em uma coluna */
+  flex: 1; /* Faz os grupos de campos ocuparem a mesma largura */
+  max-width: calc(50% - 5px); /* Define a largura máxima para ocupar metade da largura disponível */
+}
+
+/* Estilo para os rótulos (labels) */
+.label-style {
+  font-weight: bold;
+  color: #4A5173; /* Cor do texto azul */
+}
+
+/* Estilo para os inputs */
+.input-style {
+  padding: 5px; /* Espaçamento interno */
+  border: 1px solid #333; /* Borda escura */
+  border-radius: 4px; /* Cantos arredondados */
+  text-align: left; /* Texto alinhado à esquerda */
+  width: 100%; /* Define a largura do input para preencher o espaço disponível no grupo de campos */
+  background-color: #f0f0f0; /* Cor de fundo cinza claro */
+
+}

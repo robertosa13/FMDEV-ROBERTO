@@ -19,8 +19,9 @@ import EditIcon from 'react-feather/dist/icons/settings';
 import DeleteIcon from 'react-feather/dist/icons/trash-2';
 import PlayIcon from 'react-feather/dist/icons/play';
 import FileIcon from 'react-feather/dist/icons/file';
+import CpuIcon from 'react-feather/dist/icons/cpu';
 import MoodleConfigDialog from '../MoodleConfigDialog';
-import { INDICATORS, ADD_TRAIN, LMS, CSV } from '../../constants';
+import { INDICATORS, ADD_TRAIN, LMS, CSV , CLUSTER} from '../../constants';
 import { Creators as ScreenActions } from '../../store/ducks/screen';
 import { Creators as IndicatorActions } from '../../store/ducks/indicator';
 import DataSourceDialog from '../DataSourceDialog';
@@ -31,6 +32,31 @@ import AlertDialog from '../AlertDialog';
 import filesize from "filesize";
 
 const availableLms = { moodle: true };
+
+
+const clusterItems = [
+  {
+    data: 'CLUSTER',
+    name: 'Cluster',
+    description: 'Cluster'
+  },
+  {
+    data: 'AWS',
+    name: 'Amazon Web Services',
+    description: 'AWS'
+  },
+  {
+    data: 'CLUSTER',
+    name: 'AZURE',
+    description: 'Azure'
+  },
+  {
+    data: 'CLUSTER',
+    name: 'Google Cloud',
+    description: 'Google Cloud'
+  }
+
+];
 
 class DataSource extends Component {
 
@@ -76,6 +102,31 @@ class DataSource extends Component {
       </CardActions>
     </Card>
   )
+
+  renderCardCluster = (item, idx) => (
+    <Card className='lms-card' key={idx} style={{ opacity: availableLms[item.name] ? 1 : .3 }}>
+      <CardActionArea>
+        <CardContent style={{ color: primaryColor }}>
+          <Typography gutterBottom variant="h5" component="h2" style={{ fontFamily: fontFamily }}>
+            {item.description}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p" style={{ color: primaryColor, fontFamily: fontFamily, fontSize: '10px' }}>
+            Versão: {item.version ? item.version : 'Não disponível'}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions style={{ backgroundColor: primaryColor }}>
+       <IconButton onClick={this.goToIndicators.bind(this, CLUSTER, item.name, item.description)}>
+          <PlayIcon size={20} color={'#FFF'} />
+        </IconButton>
+        <IconButton onClick={this.openDialogConfig.bind(this, item)}>
+          <EditIcon size={20} color={'#FFF'} />
+        </IconButton>
+      </CardActions>
+    </Card>
+  )
+
+
 
   renderCardCSV = (item, idx) => (
     <Card className='lms-card' key={idx}>
@@ -152,6 +203,14 @@ class DataSource extends Component {
             onClick={this.setChip.bind(this, CSV)}
           />
         </div>
+        <div style={{ paddingLeft: '.5vw' }}>
+          <Chip
+            avatar={<CpuIcon size={16} color={chipSelected === CLUSTER ? '#FFF' : primaryColor} />}
+            label="Big Data"
+            className={chipSelected === CLUSTER ? 'active-chip' : 'inactive-chip'}
+            onClick={this.setChip.bind(this, CLUSTER)}
+          />
+        </div>
       </div>
     )
   }
@@ -160,7 +219,7 @@ class DataSource extends Component {
 
   render() {
     const { chipSelected } = this.state;
-    const { lms, data_source } = this.props;
+    const { lms, data_source , data_source_cluster } = this.props;
     const loading = !!data_source.loading;
     const hasData = !!data_source.data.length;
 
@@ -179,6 +238,10 @@ class DataSource extends Component {
 
           {chipSelected === LMS ?
             <CardContainer>{lms.data.map((item, idx) => this.renderCardLMS(item, idx))}</CardContainer>
+            : null}
+
+          {chipSelected === CLUSTER ?
+            <CardContainer>{clusterItems.map((item, idx) => this.renderCardCluster(item, idx))}</CardContainer>
             : null}
 
           {chipSelected === CSV ?
@@ -203,7 +266,7 @@ class DataSource extends Component {
   }
 }
 
-const mapStateToProps = ({ lms, data_source }) => ({ lms, data_source });
+const mapStateToProps = ({ lms, data_source, data_source_cluster }) => ({ lms, data_source, data_source_cluster });
 
 export default connect(
   mapStateToProps, {
