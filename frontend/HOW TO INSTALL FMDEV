@@ -269,11 +269,23 @@ git commit -m "How to install fmdev"
 git remote add origin https://github.com/robertosa13/FMDEV-ROBERTO.git
 git branch -M main
 git push -u origin main
+git push --force origin main
 
 
 quando upar try_files
 git init
+
 */
+
+
+git init
+git add --all
+git commit -m "Outubro"
+git remote add origin https://github.com/robertosa13/FMDEV-ROBERTO.git
+git branch -M main
+git push --force origin main
+
+
 
 
 # To activate this environment, use
