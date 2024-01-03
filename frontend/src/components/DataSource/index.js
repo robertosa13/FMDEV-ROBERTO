@@ -3,6 +3,8 @@ import { CardContainer } from './styles';
 import { Creators as DialogActions } from '../../store/ducks/dialog';
 import { Creators as LmsActions } from '../../store/ducks/lms';
 import { Creators as DataSourceActions } from '../../store/ducks/data_source';
+//aqui
+
 import { connect } from 'react-redux';
 import { default as CustomButton } from '../../styles/Button';
 import { ConfigContainer } from '../../styles/ConfigContainer';
@@ -19,6 +21,7 @@ import EditIcon from 'react-feather/dist/icons/settings';
 import DeleteIcon from 'react-feather/dist/icons/trash-2';
 import PlayIcon from 'react-feather/dist/icons/play';
 import FileIcon from 'react-feather/dist/icons/file';
+import EyeIcon from 'react-feather/dist/icons/eye';
 import CpuIcon from 'react-feather/dist/icons/cpu';
 import MoodleConfigDialog from '../MoodleConfigDialog';
 import { INDICATORS, ADD_TRAIN, LMS, CSV , CLUSTER} from '../../constants';
@@ -63,6 +66,8 @@ async function getData() {
 }
 
 getData();
+
+
 
 class DataSource extends Component {
 
@@ -110,7 +115,7 @@ class DataSource extends Component {
   )
 
   renderCardCluster = (item, idx) => (
-    <Card className='lms-card' key={idx} style={{ opacity: availableLms[item.name] ? 1 : .3 }}>
+    <Card className='lms-card' key={idx} style={{ opacity: true ? 1 : .3 }}>
       <CardActionArea>
         <CardContent style={{ color: primaryColor }}>
           <Typography gutterBottom variant="h5" component="h2" style={{ fontFamily: fontFamily }}>
@@ -125,8 +130,8 @@ class DataSource extends Component {
        <IconButton onClick={this.goToIndicators.bind(this, CLUSTER, item.name, item.description)}>
           <PlayIcon size={20} color={'#FFF'} />
         </IconButton>
-        <IconButton onClick={this.openDialogConfig.bind(this, item)}>
-          <EditIcon size={20} color={'#FFF'} />
+        <IconButton onClick={() => window.open(item.name, '_blank')}>
+          <EyeIcon  size={20} color={'#FFF'} />
         </IconButton>
       </CardActions>
     </Card>
@@ -223,7 +228,7 @@ class DataSource extends Component {
 
   render() {
     const { chipSelected } = this.state;
-    const { lms, data_source , data_source_cluster } = this.props;
+    const { lms, data_source } = this.props;
     const loading = !!data_source.loading;
     const hasData = !!data_source.data.length;
 
@@ -251,6 +256,8 @@ class DataSource extends Component {
           {chipSelected === CSV ?
             <CardContainer>{data_source.data.map((item, idx) => this.renderCardCSV(item, idx))}</CardContainer>
             : null}
+
+            
 
           {chipSelected === CSV && loading && (
             <StatusMsgContainer>
