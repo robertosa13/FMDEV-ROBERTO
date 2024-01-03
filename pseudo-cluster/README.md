@@ -1,4 +1,4 @@
-### Project Folder Tree
+### Diretório do projeto
 
 ```
 ├── docker-compose.yml
@@ -24,15 +24,13 @@
     └── bootstrap.sh
 ```
 
-
-
-### Create the base container image
+### Criar imagem do container
 
 ```bash
 docker build . -t cluster-base
 ```
 
-### Run the cluster or micro-lab
+### Inicialize o cluster
 
 ```bash
 docker-compose up -d
@@ -40,17 +38,17 @@ docker-compose up -d
 
 ### Yarn resource manager UI
 
-Access the Yarn resource manager UI using the following link : http://localhost:8088/cluster/nodes
+Acesse o Yarn resource manager UI usando o link: http://localhost:8088/cluster/nodes
 
 ![yarn ui](img/yarn_rm_ui.png)
 
-### Jupyter Notebook with starters notebooks
+### Jupyter Notebook 
 
-Access Jupyter Notebook using this link : http://localhost:8888/
+Acesse o Jupyter Notebook usando o link : http://localhost:8888/
 
 <img src="img/docker_jupyter.png" alt="jupyter" style="zoom:50%;" />
 
-### Stopping the micro-lab
+### Encerre o cluster
 
 ```
 docker-compose down

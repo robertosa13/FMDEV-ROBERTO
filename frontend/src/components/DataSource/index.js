@@ -33,30 +33,36 @@ import filesize from "filesize";
 
 const availableLms = { moodle: true };
 
+const url = 'http://127.0.0.1:8000'; // ENDPOINT DA INTEGRAÇÃO
 
-const clusterItems = [
-  {
-    data: 'CLUSTER',
-    name: 'Cluster',
-    description: 'Cluster'
-  },
-  {
-    data: 'AWS',
-    name: 'Amazon Web Services',
-    description: 'AWS'
-  },
-  {
-    data: 'CLUSTER',
-    name: 'AZURE',
-    description: 'Azure'
-  },
-  {
-    data: 'CLUSTER',
-    name: 'Google Cloud',
-    description: 'Google Cloud'
-  }
+//chamada assicrona
+async function fetchData(url) {
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
+}
 
-];
+var clusterItems = []
+
+async function getData() {
+  const data = await fetchData(url);
+  const TablesArray = Object.keys(data);
+  const urlsArray = TablesArray.map(key => data[key]);
+  console.log('TablesArray :', TablesArray );
+  console.log('urlsArray :', urlsArray );
+  
+    for (let i = 0; i < TablesArray.length; i++) {
+      clusterItems.push({
+        data: TablesArray[i].toString(),
+        name: urlsArray[i].toString(),
+        description: TablesArray[i].toString(),
+      });
+    }
+    
+   return clusterItems
+}
+
+getData();
 
 class DataSource extends Component {
 
@@ -125,8 +131,6 @@ class DataSource extends Component {
       </CardActions>
     </Card>
   )
-
-
 
   renderCardCSV = (item, idx) => (
     <Card className='lms-card' key={idx}>

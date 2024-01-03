@@ -265,7 +265,7 @@ git push -u origin main
 
 git init
 git add --all
-git commit -m "How to install fmdev"
+git commit -m "DJANGO API"
 git remote add origin https://github.com/robertosa13/FMDEV-ROBERTO.git
 git branch -M main
 git push -u origin main
@@ -276,6 +276,10 @@ quando upar try_files
 git init
 
 */
+
+
+
+
 
 
 
@@ -298,3 +302,16 @@ git init
 #conda config --env --set subdir osx-64
 ## install python, numpy, etc. (add more packages here...)
 #conda install python=3.7
+
+#source env/bin/activate
+# python manage.py startapp predict
+# pytho
+
+
+## DJANGO
+#source venv/bin/activate     
+#python manage.py runserver    
+#python manage.py makemigrations
+#python manage.py migrate
+#roberto 9488
+## 

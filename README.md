@@ -322,6 +322,14 @@ pip install -r requirements.txt
 python run.py
 ```
 
+## 3.1 Backend Module on MacOS
+
+```sh
+cd backend
+conda activate py37
+python run.py
+```
+
 ## 3.2 Manage Database (Flask-Migrate)
 
 ```sh
@@ -336,6 +344,14 @@ cd frontend
 yarn install
 yarn start
 ```
+
+## 3.4 Django REST API
+
+```sh
+cd backend/django_rest
+source venv/bin/activate  
+```
+
 
 ## Analysis Module (For view jupyter notebook analysis - Not required)
 
