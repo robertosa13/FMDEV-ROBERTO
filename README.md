@@ -350,6 +350,7 @@ yarn start
 ```sh
 cd backend/django_rest
 source venv/bin/activate  
+python manage.py runserver 
 ```
 
 
