@@ -7,7 +7,7 @@ import { Creators as ScreenActions } from '../../store/ducks/screen';
 import { Creators as CourseActions } from '../../store/ducks/course';
 import { Creators as SubjectActions } from '../../store/ducks/subject';
 import { Creators as SemesterActions } from '../../store/ducks/semester';
-import { Creators as IndicatorActions } from '../../store/ducks/indicator';
+import indicator, { Creators as IndicatorActions } from '../../store/ducks/indicator';
 import { Creators as PreProcessingActions } from '../../store/ducks/pre_processing';
 import { actions as toastrActions } from 'react-redux-toastr';
 import {
@@ -20,19 +20,71 @@ import Select from 'react-select';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { PickList } from 'primereact/picklist';
 
+
+var sourceCluster = [];
+
+
+const fetchData = async (url) => {
+  try {
+    const response = await fetch(url + '/?page=1');
+
+    if (!response.ok) {
+      throw new Error(`Erro na solicitação: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error('Erro ao consultar a API:', error.message);
+  }
+};
+
+async function getData(url) {
+  const data = await fetchData(url);
+  if (data) {
+    const objetos = data.results;
+     
+    if (objetos.length > 0) {
+      const propriedades = Object.keys(objetos[0]);
+
+      sourceCluster = [];
+
+      for (let i = 1; i < propriedades.length; i++) {
+        const propriedade = propriedades[i];
+        const item = {
+          value: propriedade,
+          label: propriedade,
+        };
+        sourceCluster.push(item);
+      }
+     return sourceCluster;
+  }
+}
+}
+
+//getData();
+
 class Indicators extends Component {
 
   componentDidMount() {
     const dataSourceContext = this.getDataSourceContext();
+    var url = this.getDataURl();
+    var urlArray = url.split("//");
+    url = urlArray[0] + "//" + urlArray[1];
+    getData(url);
 
     if (dataSourceContext === LMS) {
       this.props.getCourses({ datasource: this.getDataSourceId() });
     };
-
+    
     this.props.indicatorInitFilter();
+
   }
 
   getDataSourceContext = () => this.props.indicator.datasource ? this.props.indicator.datasource.split('/')[0] : null;
+
+  getDataURl = () => this.props.indicator.datasource ? this.props.indicator.datasource.split('CLUSTER/')[1] : null;
 
   getDataSourceId = () => this.props.indicator.datasource ? this.props.indicator.datasource.split('/')[1] : null;
 
@@ -125,12 +177,17 @@ class Indicators extends Component {
     return items.map(item => item.value);
   }
 
+
+
+
   render() {
     const { course, subject, semester, indicator } = this.props;
-    const { source, indicators, targetSelected, courseSelected,
+    var { source, indicators, targetSelected, courseSelected,
       subjectSelected, semesterSelected } = this.props.indicator;
-    const dataSourceContext = this.getDataSourceContext();
 
+    const dataSourceContext = this.getDataSourceContext();
+    source = sourceCluster;
+   
     return (
       <ConfigContainer size='big'>
         <PerfectScrollbar style={{ width: '100%' }}>

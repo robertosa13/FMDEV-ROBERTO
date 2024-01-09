@@ -3,8 +3,6 @@ import { CardContainer } from './styles';
 import { Creators as DialogActions } from '../../store/ducks/dialog';
 import { Creators as LmsActions } from '../../store/ducks/lms';
 import { Creators as DataSourceActions } from '../../store/ducks/data_source';
-//aqui
-
 import { connect } from 'react-redux';
 import { default as CustomButton } from '../../styles/Button';
 import { ConfigContainer } from '../../styles/ConfigContainer';
@@ -51,8 +49,6 @@ async function getData() {
   const data = await fetchData(url);
   const TablesArray = Object.keys(data);
   const urlsArray = TablesArray.map(key => data[key]);
-  console.log('TablesArray :', TablesArray );
-  console.log('urlsArray :', urlsArray );
   
     for (let i = 0; i < TablesArray.length; i++) {
       clusterItems.push({
@@ -181,9 +177,8 @@ class DataSource extends Component {
 
   goToIndicators = (context, id, name, event) => {
     const key = `${context}/${id}/${name}`;
-  
-    if (context === LMS && !availableLms[id]) return;
 
+    if (context === LMS && !availableLms[id]) return;
     this.props.setScreen(ADD_TRAIN, INDICATORS);
     this.props.setIndicator('datasource', key);
     this.props.getIndicators({ context, id });
