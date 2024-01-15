@@ -22,6 +22,9 @@ import { PickList } from 'primereact/picklist';
 
 
 var sourceCluster = [];
+var firstTime = true;
+var change = false;
+var IndicatorsOptions = [];
 
 
 const fetchData = async (url) => {
@@ -41,6 +44,7 @@ const fetchData = async (url) => {
 };
 
 async function getData(url) {
+  
   const data = await fetchData(url);
   if (data) {
     const objetos = data.results;
@@ -63,16 +67,22 @@ async function getData(url) {
 }
 }
 
-//getData();
+
 
 class Indicators extends Component {
 
   componentDidMount() {
     const dataSourceContext = this.getDataSourceContext();
+
+    if(dataSourceContext === 'CLUSTER'){
     var url = this.getDataURl();
     var urlArray = url.split("//");
     url = urlArray[0] + "//" + urlArray[1];
-    getData(url);
+    
+    if(firstTime){
+      getData(url);
+      } 
+    }
 
     if (dataSourceContext === LMS) {
       this.props.getCourses({ datasource: this.getDataSourceId() });
@@ -124,8 +134,15 @@ class Indicators extends Component {
   };
 
   onPickListChange(event) {
+
+    firstTime = false;
+    change = true;
+
+    console.log(JSON.stringify(indicator.data));
+
+    IndicatorsOptions = event.target;  
     this.props.setIndicator('source', event.source);
-    this.props.setIndicator('indicators', event.target);
+    this.props.setIndicator('indicators', event.target);    
   }
 
   renderWarningMsg = (msg) => {
@@ -181,25 +198,48 @@ class Indicators extends Component {
 
 
   render() {
-    const { course, subject, semester, indicator } = this.props;
+    var { course, subject, semester, indicator } = this.props;
     var { source, indicators, targetSelected, courseSelected,
       subjectSelected, semesterSelected } = this.props.indicator;
 
     const dataSourceContext = this.getDataSourceContext();
-    source = sourceCluster;
-   
+
+    if(firstTime){
+      //Carregar os dados do cluster uma única vez
+      source = sourceCluster;
+      IndicatorsOptions =  sourceCluster;      
+    } 
+
     return (
       <ConfigContainer size='big'>
         <PerfectScrollbar style={{ width: '100%' }}>
           <div style={{ width: '35%' }}>
             <BreadCrumb text='Voltar para Escolha de Fontes de dados' screen={ADD_TRAIN} destiny={DATASOURCE} />
           </div>
-          <Header>
-            <h1>Selecione os indicadores</h1>
-            <div>
-              <Button onClick={this.onSubmit.bind(this)}>PRÉ-PROCESSAR BASE</Button>
-            </div>
-          </Header>
+
+
+          {dataSourceContext === 'CLUSTER' && (               
+                <React.Fragment>
+                    <Header>
+                      <h1>Selecione os indicadores</h1>
+                      <div>
+                        <Button onClick={this.onSubmit.bind(this)}>EXECUTAR TREINAMENTO NO SPARK</Button>
+                      </div>
+                    </Header>                              
+                </React.Fragment>
+          )}
+
+
+          {dataSourceContext !== 'CLUSTER' && (               
+                      <React.Fragment>
+                          <Header>
+                            <h1>Selecione os indicadores</h1>
+                            <div>
+                              <Button onClick={this.onSubmit.bind(this)}>PRÉ-PROCESSAR BASE</Button>
+                            </div>
+                          </Header>                              
+                      </React.Fragment>
+            )}
 
           <Content>
             <LeftContent>
@@ -248,17 +288,40 @@ class Indicators extends Component {
                 </React.Fragment>
               )}
 
-              <SelectText>Indicador Alvo</SelectText>
+            <SelectText>Indicador Alvo</SelectText>
+
+            {dataSourceContext === 'CLUSTER' && (               
+                <React.Fragment>
               <SelectContainer>
-                <Select
-                  isClearable
-                  value={targetSelected}
-                  noOptionsMessage={() => 'Sem dados'}
-                  onChange={(e) => this.handleChange(e, 'targetSelected')}
-                  placeholder={'Selecione um indicador alvo'}
-                  styles={selectStyle}
-                  options={indicator.data.asMutable()} />
-              </SelectContainer>
+              <Select
+                isClearable
+                value={targetSelected}
+                noOptionsMessage={() => 'Sem dados'}
+                onChange={(e) => this.handleChange(e, 'targetSelected')}
+                placeholder={'Selecione um indicador alvo'}
+                styles={selectStyle}
+                options={IndicatorsOptions} />
+            </SelectContainer>
+                
+                </React.Fragment>
+              )}
+
+            {dataSourceContext !== 'CLUSTER' && (              
+                <React.Fragment>
+              <SelectContainer>
+              <Select
+                isClearable
+                value={targetSelected}
+                noOptionsMessage={() => 'Sem dados'}
+                onChange={(e) => this.handleChange(e, 'targetSelected')}
+                placeholder={'Selecione um indicador alvo'}
+                styles={selectStyle}
+                options={indicator.data.asMutable()} />
+            </SelectContainer>
+                
+                </React.Fragment>
+              )}
+            
             </LeftContent>
 
             <Separator>&nbsp;</Separator>
