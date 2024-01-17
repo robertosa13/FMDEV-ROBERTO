@@ -304,6 +304,39 @@ May 20 20:43:26 fmdev gunicorn[26626]: [2020-05-20 20:43:26 +0000] [26626] [INFO
 May 20 20:43:26 fmdev gunicorn[26626]: [2020-05-20 20:43:26 +0000] [26626] [INFO] Listening at: 
 May 20 20:43:26 fmdev gunicorn[26626]: [2020-05-20 20:43:26 +0000] [26626] [INFO] Using worker: 
 May 20 20:43:26 fmdev gunicorn[26626]: [2020-05-20 20:43:26 +0000] [26646] [INFO] Booting worker
+
+```
+
+#1.6 Spark Instalation
+
+## SPARK INSTALATION
+
+**Apple Silicion**
+
+```sh
+brew install openjdk@11
+brew install scala
+brew install apache-spark
+```
+
+**CONDA INSTALLATION**
+
+```sh
+conda activate py37
+conda install -c conda-forge pyspark 
+```
+
+**Check the version**
+
+```sh
+spark-shell
+pyspark
+``
+
+**Show spark installation folder**
+
+```sh
+pip show pyspark
 ```
 
 # 2. Deploy on Docker
@@ -326,9 +359,11 @@ python run.py
 
 ```sh
 cd backend
-conda activate py37
+conda activate py39
 python run.py
 ```
+
+
 
 ## 3.2 Manage Database (Flask-Migrate)
 
@@ -353,6 +388,12 @@ source venv/bin/activate
 python manage.py runserver 
 ```
 
+## 3.4 SPARK
+
+```sh
+conda activate py39
+cd backend/spark
+```
 
 ## Analysis Module (For view jupyter notebook analysis - Not required)
 

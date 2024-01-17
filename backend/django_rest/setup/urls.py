@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from escola.views import IrisViewSet, AlunosViewSet, CursosViewSet, MatriculaViewSet, ListaMatriculasAluno, ListaAlunosMatriculados
+from escola.views import IrisViewSet, AlunosViewSet, CursosViewSet, MatriculaViewSet, ListaMatriculasAluno, ListaAlunosMatriculados, spark
 from rest_framework import routers
 from setup.views import Table
 
@@ -31,4 +31,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('aluno/<int:pk>/matriculas/', ListaMatriculasAluno.as_view()),
     path('curso/<int:pk>/matriculas/', ListaAlunosMatriculados.as_view()),
+    path('spark/', spark, name='spark'),
 ]
+
+

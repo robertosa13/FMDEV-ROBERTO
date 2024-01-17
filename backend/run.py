@@ -1,4 +1,3 @@
-
 from flask import Flask
 from flask import Flask
 from flask_cors import CORS
@@ -19,8 +18,9 @@ def create_app(config_filename):
     db.init_app(app)
 
     CORS(app)
-
+  
     return app
+
 
 
 if __name__ == "__main__":

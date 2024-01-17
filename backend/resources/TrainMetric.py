@@ -3,7 +3,8 @@ import traceback
 import pandas as pd
 from utils import utils
 from flask_restful import Resource
-from sklearn.metrics import SCORERS
+#from sklearn.metrics import SCORERS
+from sklearn.metrics import __all__
 from flask import request, current_app
 from flask_jwt_extended import jwt_required
 

@@ -265,7 +265,7 @@ git push -u origin main
 
 git init
 git add --all
-git commit -m "Django API - Seleção de indicadores com base na API"
+git commit -m "DJANGO API - Configuração inicial do endpoint do spark"
 git remote add origin https://github.com/robertosa13/FMDEV-ROBERTO.git
 git branch -M main
 git push -u origin main
@@ -276,12 +276,6 @@ quando upar try_files
 git init
 
 */
-
-
-
-
-
-
 
 
 

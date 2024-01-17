@@ -3,6 +3,30 @@ from escola.models import Aluno, Curso, Matricula, Iris
 from escola.serializer import IrisSerializer, AlunoSerializer, CursoSerializer, MatriculaSerializer, ListaMatriculasAlunoSerializer, ListaAlunosMatriculadosSerializer
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
+from pyspark.sql import SparkSession
+
+
+from django.http import JsonResponse
+
+def spark(request):
+
+    #http://localhost:8000/spark/?parametro1=${parametro1}&parametro2=${parametro2}
+    #sintaxe do get 
+
+    parametro1 = request.GET.get('parametro1', '')
+    parametro2 = request.GET.get('parametro2', '')
+    resultado = f"Parâmetro 1: {parametro1}, Parâmetro 2: {parametro2}"
+
+    spark = SparkSession.builder.appName("HelloWorld").getOrCreate()
+    sc = spark.sparkContext
+
+    nums = sc.parallelize([1,2,3,4])
+    print(nums.map(lambda x: x*x).collect())
+    #return JsonResponse({'resultado': resultado})
+    return JsonResponse({'resultado': resultado})
+
+
+
 
 class IrisViewSet(viewsets.ModelViewSet):
     queryset = Iris.objects.all()

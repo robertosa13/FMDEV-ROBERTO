@@ -9,7 +9,8 @@ from flask_restful import Resource
 from dask.distributed import Client
 from flask import request, current_app
 from flask_jwt_extended import jwt_required
-from sklearn.metrics import make_scorer, SCORERS
+#from sklearn.metrics import make_scorer, SCORERS
+from sklearn.metrics import __all__
 from sklearn.model_selection import train_test_split
 
 class Train(Resource):
