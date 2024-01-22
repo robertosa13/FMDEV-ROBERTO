@@ -388,12 +388,16 @@ source venv/bin/activate
 python manage.py runserver 
 ```
 
-## 3.4 SPARK
+
+
+## 3.5 Django REST API with Spark
 
 ```sh
+cd backend/django_rest
 conda activate py39
-cd backend/spark
+python manage.py runserver 
 ```
+
 
 ## Analysis Module (For view jupyter notebook analysis - Not required)
 

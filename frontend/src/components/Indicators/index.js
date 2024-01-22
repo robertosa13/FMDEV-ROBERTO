@@ -181,7 +181,17 @@ class Indicators extends Component {
     filter.semesters = this.getValueFromSelect(semesterSelected);
     filter.indicators = this.getValueFromSelect(indicators);
 
+    //MONTAR A API DO SPARK
 
+    if(filter.context === 'CLUSTER'){
+      var url = this.getDataURl();
+      var urlArray = url.split("//");
+      url = urlArray[1];
+    }
+
+    var api_spark = "http://localhost:8000/spark/?target=" + filter.target + "&columns=" + filter.indicators + "&url=" + url;
+    console.log(api_spark);
+   
     this.props.getPreProcessing(filter);
     setScreen(ADD_TRAIN, PRE_PROCESSING);
   }
@@ -193,8 +203,6 @@ class Indicators extends Component {
 
     return items.map(item => item.value);
   }
-
-
 
 
   render() {

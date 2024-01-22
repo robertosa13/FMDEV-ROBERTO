@@ -265,7 +265,7 @@ git push -u origin main
 
 git init
 git add --all
-git commit -m "DJANGO API - Configuração inicial do endpoint do spark"
+git commit -m "H2o SPARK AUTO ML"
 git remote add origin https://github.com/robertosa13/FMDEV-ROBERTO.git
 git branch -M main
 git push -u origin main
