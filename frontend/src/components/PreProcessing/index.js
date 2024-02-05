@@ -324,4 +324,5 @@ export default connect(
   ...ChartActions, ...DialogActions,
   ...PreProcessingActions, ...TrainActions
 }
+
 )(PreProcessing);

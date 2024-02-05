@@ -10,3 +10,4 @@ export const LMS = 'LMS';
 export const CSV = 'CSV';
 export const LAD = 'LAD';
 export const CLUSTER = 'CLUSTER';
+export const SPARK_PROCESSING = "SPARK_PROCESSING";

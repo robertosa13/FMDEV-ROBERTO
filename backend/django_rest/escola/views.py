@@ -20,10 +20,12 @@ def spark(request):
     #http://localhost:8000/spark/?parametro1=${parametro1}&parametro2=${parametro2}
     #sintaxe do get 
 
+    print("TESTE DO BETOOO")
+
     target = request.GET.get('target', '')
     columns = request.GET.get('columns', '')
     url = 'http://' + request.GET.get('url', '')
-    resultado = f"Target: {target}, Colunas: {columns}, URL: {url}"
+    #resultado = f"Target: {target}, Colunas: {columns}, URL: {url}"
 
     #CONSULTAR OS DADOS VIA REST E TRAZER PARA UM DATAFRAME
 
@@ -116,10 +118,9 @@ def spark(request):
     #h2o.get_model([mid for mid in model_ids if "XGBoost" in mid][0])
 
     model_path = aml.leader.download_mojo(path = "/Users/roberto/fmdev/backend/data/models/")
-    print("TESTEEEE" + str(model_path))
+ 
 
-   
-
+    resultado = f"model_path: {model_path}, best_model: {best_model.model_id}, lb: {lb}"   
 
     #return JsonResponse({'resultado': resultado})
     return JsonResponse({'resultado': resultado})

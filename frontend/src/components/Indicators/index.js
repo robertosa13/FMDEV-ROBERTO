@@ -14,7 +14,7 @@ import {
   Header, Separator, Content, LeftContent,
   RightContainer, SelectText, SelectContainer
 } from './styles';
-import { DATASOURCE, PRE_PROCESSING, ADD_TRAIN, LMS } from '../../constants';
+import { DATASOURCE, PRE_PROCESSING, ADD_TRAIN, LMS, SPARK_TRAIN, SPARK_PROCESSING } from '../../constants';
 import { selectStyle } from '../../styles/global';
 import Select from 'react-select';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -187,13 +187,18 @@ class Indicators extends Component {
       var url = this.getDataURl();
       var urlArray = url.split("//");
       url = urlArray[1];
-    }
+      var api_spark = "http://localhost:8000/spark/?target=" + filter.target + "&columns=" + filter.indicators + "&url=" + url;
+      console.log(api_spark);   
+      this.props.getPreProcessing(filter);
+      setScreen(ADD_TRAIN, SPARK_PROCESSING);
+    } else{
+      this.props.getPreProcessing(filter);
+      setScreen(ADD_TRAIN, PRE_PROCESSING);
 
-    var api_spark = "http://localhost:8000/spark/?target=" + filter.target + "&columns=" + filter.indicators + "&url=" + url;
-    console.log(api_spark);
-   
-    this.props.getPreProcessing(filter);
-    setScreen(ADD_TRAIN, PRE_PROCESSING);
+    }
+    
+    /*this.props.getPreProcessing(filter);
+    setScreen(ADD_TRAIN, PRE_PROCESSING);*/
   }
 
   getValueFromSelect = items => {
