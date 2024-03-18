@@ -1,138 +1,59 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { ConfigContainer } from "../../styles/ConfigContainer";
-
 import { Header } from "../../styles/global";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import { LeftContent, SelectContainer, Content, Separator } from "./styles";
-import Button from "../../styles/Button";
-import "./ButtonGrid.css"; // Import the CSS file
-import "./stylestwo.css"; // Importe o arquivo de estilos
+import { Content } from "./styles";
+import { api_spark } from "../Indicators";
+import api from "../../services/api";
+import MyComponent from "./styles";
 
-class ConfigurarIntegracao extends Component {
-  state = {
-    url: "Valor Padrão do IP",
-    token: "Valor Padrão da Chave de API",
-    version: null, // Deixe null se não tiver uma versão selecionada inicialmente
-  };
-
-  handleChangeInput = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  handleChangeVersion = (selectedOption) => {
-    this.setState({ version: selectedOption });
-  };
-}
 
 const Formulario = () => {
+  const [loading, setLoading] = useState(true); // Estado para controlar o carregamento
+  const [responseData, setResponseData] = useState(null); // Estado para armazenar a resposta da API
+
+  useEffect(() => {
+    const fetchFromSparkAPI = async () => {
+      try {
+        // Faz o POST para a API usando o valor de api_spark
+        const response = await api.get(api_spark);
+
+
+        // Se necessário, você pode fazer algo com a resposta aqui
+        console.log("Resposta da API:", response.data);
+        setResponseData(response.data); // Armazena os dados da resposta da API
+        setLoading(false); // Define o estado de carregamento como falso
+      } catch (error) {
+        console.error("Erro ao fazer o POST para a API:", error);
+      }
+    };
+
+    fetchFromSparkAPI(); // Chama a função para buscar os dados da API ao renderizar a página
+  }, []); // [] assegura que o useEffect seja executado apenas uma vez, sem depender de variáveis de estado
+
   return (
     <PerfectScrollbar style={{ width: "100%", overflowX: "auto" }}>
       <ConfigContainer size="big" style={{ color: "#000" }}>
         <Header>
-          <h1>Administração Cluster</h1>
+          <h1>Análise do AutomL</h1>        
         </Header>
 
         <Content>
-          <LeftContent>
-            <div className="button-grid">
-              <Button onClick={() => {}}>Resource Manager</Button>
-              <Button onClick={() => {}}>NameNode WebUI</Button>
-              <Button onClick={() => {}}>HDFS</Button>
-              <Button onClick={() => {}}>WebUI Spark Master</Button>
-              <Button onClick={() => {}}>Node Manager</Button>
-              <Button onClick={() => {}}>Jupyter</Button>
-              <Button onClick={() => {}}>Spark</Button>
-            </div>
-          </LeftContent>
-          <Separator> </Separator>
+          {loading ? ( // Verifica se está carregando
+            <div>Loading.........
+                           
+                          
+            </div> // Exibe uma mensagem de carregamento  
+                       
+                  
 
-          <div className="form-content">
-            {" "}
-            {/* Aplicando a classe form-content */}
+          ) : (
             <div>
-              <label htmlFor="url" className="label-style">
-                NODE MASTER IP:
-              </label>
-              <input
-                type="text"
-                id="url"
-                name="url"
-                className="input-style"
-                defaultValue="172.18.0.4"
-              />
+              <h2>API Spark: {api_spark}</h2>
+              {/* Aqui você pode usar responseData para exibir os dados recebidos da API */}
             </div>
-            <div>
-              <label htmlFor="port" className="label-style">
-                Port:
-              </label>
-              <input
-                type="text"
-                id="port"
-                name="port"
-                className="input-style"
-                defaultValue="80:80"
-              />
-            </div>
-            <div>
-              <label htmlFor="mode" className="label-style">
-                Deploy Mode:
-              </label>
-              <input
-                type="text"
-                id="mode"
-                name="Deploy mode"
-                className="input-style"
-                defaultValue="Cluster"
-              />
-            </div>
-            <div>
-              <label htmlFor="mode" className="label-style">
-                Hadoop Version:
-              </label>
-              <input
-                type="text"
-                id="hadoop"
-                name="hadoop"
-                className="input-style"
-                defaultValue="2.7.0"
-              />
-            </div>
-            <div>
-              <label htmlFor="mode" className="label-style">
-                Spark Version:
-              </label>
-              <input
-                type="text"
-                id="spark"
-                name="spark"
-                className="input-style"
-                defaultValue="2.4.8"
-              />
-            </div>
-          <div>
-            <label htmlFor="mode" className="label-style">
-              Endpoint:
-            </label>
-            <input
-              type="text"
-              id="endpoint"
-              name="endpoint"
-              className="input-style"
-              defaultValue="spark://172.18.0.4:7077"
-            />
-          </div>
-          </div>
+          )}
         </Content>
-
-        {/* {!data.length && !loading ?
-            <StatusMsgContainer> Sem dados para serem exibidos. </StatusMsgContainer>
-            : null} */}
-
-        {/*loading ?
-            <LoadingContainer>
-              <ProgressSpinner style={{ width: '50px', height: '50px' }} strokeWidth="4" fill="#EEEEEE" animationDuration=".5s" />
-            </LoadingContainer>
-          : null*/}
       </ConfigContainer>
     </PerfectScrollbar>
   );

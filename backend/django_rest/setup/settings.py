@@ -44,25 +44,32 @@ INSTALLED_APPS = [
     'escola',
 ]
 
+
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.locale.LocaleMiddleware',      
 ]
 
 #FMDEV
+
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    'http://127.0.0.1:3000'
 ]
 
+
 ROOT_URLCONF = "setup.urls"
+
+
+CORS_ALLOW_HEADERS = ['*']
+
 
 TEMPLATES = [
     {
@@ -140,3 +147,6 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+

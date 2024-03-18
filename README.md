@@ -399,6 +399,16 @@ python manage.py runserver
 ```
 
 
+## 3.5 Start Spark
+
+```sh
+cd backend/django_rest
+conda activate py39
+spark-shell
+pyspark
+```
+
+
 ## Analysis Module (For view jupyter notebook analysis - Not required)
 
 ```sh

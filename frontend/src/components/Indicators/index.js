@@ -20,11 +20,11 @@ import Select from 'react-select';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { PickList } from 'primereact/picklist';
 
-
 var sourceCluster = [];
 var firstTime = true;
 var change = false;
 var IndicatorsOptions = [];
+
 
 
 const fetchData = async (url) => {
@@ -67,6 +67,8 @@ async function getData(url) {
 }
 }
 
+
+export var api_spark = ""; // Declaração da variável fora da classe
 
 
 class Indicators extends Component {
@@ -187,10 +189,14 @@ class Indicators extends Component {
       var url = this.getDataURl();
       var urlArray = url.split("//");
       url = urlArray[1];
-      var api_spark = "http://localhost:8000/spark/?target=" + filter.target + "&columns=" + filter.indicators + "&url=" + url;
+      api_spark = "http://localhost:8000/spark/?target=" + filter.target + "&columns=" + filter.indicators + "&url=" + url;
       console.log(api_spark);   
       this.props.getPreProcessing(filter);
+      console.log("teste" + SPARK_PROCESSING)
       setScreen(ADD_TRAIN, SPARK_PROCESSING);
+
+        
+      
     } else{
       this.props.getPreProcessing(filter);
       setScreen(ADD_TRAIN, PRE_PROCESSING);
