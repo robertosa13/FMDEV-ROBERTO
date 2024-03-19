@@ -6,23 +6,26 @@ import { Content } from "./styles";
 import { api_spark } from "../Indicators";
 import api from "../../services/api";
 import MyComponent from "./styles";
-
+import {SpinnerContainer, Spinner, Message } from "./styles";
 
 const Formulario = () => {
   const [loading, setLoading] = useState(true); // Estado para controlar o carregamento
   const [responseData, setResponseData] = useState(null); // Estado para armazenar a resposta da API
+
+  var a;
 
   useEffect(() => {
     const fetchFromSparkAPI = async () => {
       try {
         // Faz o POST para a API usando o valor de api_spark
         const response = await api.get(api_spark);
+        setResponseData(response.data)
+        console.log("roberto " + JSON.stringify(response.data))
+        console.log("roberto 2" + response.data.resultado.toString())
 
-
-        // Se necessário, você pode fazer algo com a resposta aqui
-        console.log("Resposta da API:", response.data);
-        setResponseData(response.data); // Armazena os dados da resposta da API
+        
         setLoading(false); // Define o estado de carregamento como falso
+
       } catch (error) {
         console.error("Erro ao fazer o POST para a API:", error);
       }
@@ -40,18 +43,42 @@ const Formulario = () => {
 
         <Content>
           {loading ? ( // Verifica se está carregando
-            <div>Loading.........
-                           
-                          
+            <div>
+              <SpinnerContainer>              
+              <Spinner />
+              <Message> O treinamento de AutoML iniciou-se...</Message>
+            </SpinnerContainer>                          
             </div> // Exibe uma mensagem de carregamento  
                        
                   
 
           ) : (
-            <div>
-              <h2>API Spark: {api_spark}</h2>
-              {/* Aqui você pode usar responseData para exibir os dados recebidos da API */}
-            </div>
+            <div>            
+            {responseData && responseData.resultado ? (
+              <div>            
+              <ul>
+                {responseData.resultado.split("\n").map((row, index) => {
+
+                  
+                  // Split each row by spaces
+                  const rowData = row.trim().split(/\s+/);
+
+                  if (row.trim().startsWith("model_path::")) {
+                    return null; // Retorna null para não renderizar o item
+                  }
+
+                  return (
+                    <li key={index}>
+                      <strong>{rowData[0]}:</strong> {rowData.slice(1).join(", ")}
+                    </li>
+                  );
+                })}
+              </ul>
+              </div>           
+            ) : (
+              <p>Nenhum dado disponível</p>
+            )}
+          </div>
           )}
         </Content>
       </ConfigContainer>

@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import React from 'react';
+import styled, { keyframes } from 'styled-components';
+
 
 export const LeftContent = styled.div`
   display: flex;
@@ -35,3 +35,39 @@ font-weight: bold;
   color: #333; `
 ;
 
+
+const spin = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
+export const SpinnerContainer = styled.div`
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100px; 
+`;
+
+export const Spinner = styled.div`
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #333; 
+  border-radius: 50%;
+  width: 300px; 
+  height: 300px; 
+  animation: ${spin} 1s linear infinite;
+`;
+
+export const Message = styled.div`
+  margin-top: 20px; 
+  margin-left: 20px; 
+  font-size: 25px; 
+  color: #333; /
+`;
