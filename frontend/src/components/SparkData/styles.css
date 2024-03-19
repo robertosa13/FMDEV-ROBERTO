@@ -1,0 +1,28 @@
+.modern-table {
+  border-collapse: collapse;
+  width: 100%;  
+  margin: 0 auto; /* Centraliza a tabela horizontalmente */
+
+}
+
+.modern-table th, .modern-table td {
+  padding: 8px;
+  text-align: center;
+  border: 1px solid #ffffff;  
+  font-size: 20px; 
+}
+
+.modern-table th {
+  background-color: #ffffff;
+  color: #333;
+}
+
+.modern-table tbody tr:nth-child(even) {
+  background-color: #4A5173;
+  color: #ffff;
+  opacity: 0.95;
+}
+
+.modern-table tbody tr:first-child {
+  background-color: #ffffff; /* Cor da primeira linha de todas */
+}

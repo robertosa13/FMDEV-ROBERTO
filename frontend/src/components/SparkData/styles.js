@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-
+import React from 'react';
 
 export const LeftContent = styled.div`
   display: flex;
@@ -34,7 +34,6 @@ font-weight: bold;
   margin-right: 10px; 
   color: #333; `
 ;
-
 
 const spin = keyframes`
   0% {
@@ -71,3 +70,52 @@ export const Message = styled.div`
   font-size: 25px; 
   color: #333; /
 `;
+
+const Tooltip = styled.div`
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+`;
+
+const TooltipText = styled.span`
+  visibility: hidden;
+  width: 600px;
+  background-color: #4A5173;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+
+  ${Tooltip}:hover & {
+    visibility: visible;
+  }
+`;
+
+const Icon = styled.div`
+  width: 24px;
+  height: 24px;
+  background-color: #4A5173;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+`;
+
+const ComponentComTooltip = ({ text }) => (
+  <Tooltip>
+      <Icon>i</Icon>
+    <TooltipText>{text}</TooltipText>
+  </Tooltip>
+);
+
+export default ComponentComTooltip;
+

@@ -265,7 +265,7 @@ git push -u origin main
 
 git init
 git add --all
-git commit -m "spinner de loading configurado e retorno da api na tela"
+git commit -m "Tabela de métricas de desempenho configuradas"
 git remote add origin https://github.com/robertosa13/FMDEV-ROBERTO.git
 git branch -M main
 git push -u origin main

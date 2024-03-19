@@ -17,17 +17,9 @@ import os
 
 def spark(request):
 
-    #http://localhost:8000/spark/?parametro1=${parametro1}&parametro2=${parametro2}
-    #sintaxe do get 
-
-    print("TESTE DO BETOOO")
-
     target = request.GET.get('target', '')
     columns = request.GET.get('columns', '')
     url = 'http://' + request.GET.get('url', '')
-    #resultado = f"Target: {target}, Colunas: {columns}, URL: {url}"
-
-    #CONSULTAR OS DADOS VIA REST E TRAZER PARA UM DATAFRAME
 
     spark = SparkSession.builder.appName("FMDEV").getOrCreate()
     sc = spark.sparkContext
@@ -35,19 +27,14 @@ def spark(request):
     def get_all_data(api_url):
         all_data = []
 
-        while api_url:
-            # Faz uma solicitação GET para a API
+        while api_url:            
             response = requests.get(api_url)
 
-            # Verifica se a solicitação foi bem-sucedida (código 200)
+            
             if response.status_code == 200:
-                # Adiciona os dados da resposta à lista
                 all_data.extend(response.json()['results'])
-
-                # Atualiza a URL para a próxima página, se houver
                 api_url = response.json()['next']
             else:
-                # Se a solicitação não for bem-sucedida, lança uma exceção ou lida com o erro de outra maneira
                 response.raise_for_status()
 
         return all_data
@@ -58,19 +45,6 @@ def spark(request):
 
     rdd = spark.sparkContext.parallelize(dados)
     df = spark.read.json(rdd)
-
-    print("\n\n")
-    print("=" * 100) 
-    print(df.printSchema())
-    print("\n\n")
-    print("=" * 100)
-
-    print("\n\n")
-    print("=" * 100) 
-    print(df.show(100))
-    print("\n\n")
-    print("=" * 100)
-
     sc.stop()
 
 
@@ -105,7 +79,7 @@ def spark(request):
     #metalearner = h2o.get_model(se.metalearner()['name'])
     print(model_ids)
 
-        # Obtenha o leaderboard
+    # Obtenha o leaderboard
     lb = aml.leaderboard
 
     # Imprima o leaderboard
@@ -117,11 +91,11 @@ def spark(request):
 
     #h2o.get_model([mid for mid in model_ids if "XGBoost" in mid][0])
 
-    model_path = aml.leader.download_mojo(path = "/Users/roberto/fmdev/backend/data/models/")
- 
+    model_path = aml.leader.download_mojo(path = "/Users/roberto/fmdev/backend/data/models/") 
 
-    resultado = f"model_path: {model_path}, best_model: {best_model.model_id}, lb: {lb}"   
-
+    #resultado = f"model_path: {model_path}, best_model: {best_model.model_id}, lb: {lb}"  
+    resultado = f"lb: {lb}"
+   
     #return JsonResponse({'resultado': resultado})
     return JsonResponse({'resultado': resultado})
 
