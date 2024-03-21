@@ -1,9 +1,0 @@
-scikit-learn
-jupyter
-pyspark
-numpy>=1.19.5
-dask
-pandas
-findspark
-dask-yarn
-bash_kernel

@@ -428,14 +428,19 @@ cd cluster
 make -f Makefile
 ```
 
+
+Para subir os containers
 ```sh
-ls
+ docker compose up
 
 ```
 
 ```sh
  docker exec -it master /bin/bash
 ```
+
+
+
 
 Renomear o container criado para "master".
 
@@ -448,6 +453,14 @@ $ ./user_data/admin/fiatlux.sh
 bash ./user_data/admin/fiatlux.sh
 ```
 
+Para ativar a venv do django
+
+
+```sh
+cd django_rest
+. $venv/bin/activate
+```
+
 Principais portas 
 
 ports:
@@ -458,6 +471,7 @@ ports:
       - "8042:8042" # NodeManager
       - "8888:8888" # Jupyter
       - "4040:4040" # Spark
+      - "8000:8000" # django
 ```
 
 [ResourceManager](https://localhost:8088:8088)

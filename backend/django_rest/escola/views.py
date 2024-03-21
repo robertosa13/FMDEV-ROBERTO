@@ -62,7 +62,8 @@ def spark(request):
     x.remove(y)
     x.remove("customerID")
 
-    aml = H2OAutoML(max_models = 10, seed = 10, exclude_algos = ["StackedEnsemble", "DeepLearning"], verbosity="info", nfolds=0)
+    #verbosity="info",
+    aml = H2OAutoML(max_models = 10, seed = 10, exclude_algos = ["StackedEnsemble", "DeepLearning"],  nfolds=0)
 
     aml.train(x = x, y = y, training_frame = churn_train, validation_frame=churn_valid)
 
