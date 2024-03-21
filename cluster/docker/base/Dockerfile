@@ -13,7 +13,7 @@ ENV YARN_HOME=$HADOOP_HOME
 
 # Variaveis de ambiente do Hadoop
 #ENV HADOOP_VERSION 3.3.3
-ENV HADOOP_VERSION 3.4.0
+ENV HADOOP_VERSION 3.3.3
 ENV HADOOP_MINOR_VERSION 3
 ENV HADOOP_HOME /usr/hadoop-$HADOOP_VERSION
 ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
@@ -72,7 +72,9 @@ RUN tar -zvxf scala-${SCALA_VERSION}.tgz \
 
 
 # Instalando Hadoop
-RUN wget https://dlcdn.apache.org/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \
+#https://dlcdn.apache.org/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz
+#
+RUN wget https://archive.apache.org/dist/hadoop/common/hadoop-3.3.3/hadoop-3.3.3.tar.gz \
     && tar zvxf hadoop-${HADOOP_VERSION}.tar.gz -C /usr/ \
     && rm hadoop-${HADOOP_VERSION}.tar.gz \
     && rm -rf ${HADOOP_HOME}/share/doc \

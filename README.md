@@ -440,26 +440,54 @@ Para subir os containers
 ```
 
 
-
-
 Renomear o container criado para "master".
 
 Na primeira vez o script vai configurar, formatar HDFS e inicializar Yarn, Hadoop e Spark
 
-Nos usos subsequentes, você precisará acessar o master (comando 3) e executar
-
 ```sh
 $ ./user_data/admin/fiatlux.sh
+```
+
+Nos usos subsequentes, você precisará acessar o master (comando 3) e executar para inicializar
+
+```sh
 bash ./user_data/admin/fiatlux.sh
 ```
 
-Para ativar a venv do django
 
+Para instalar o django_rest dentro do container master copiar a basca backend\django_rest no diretório root
+
+e dar o seguinte comando para ativar a virtual env
 
 ```sh
 cd django_rest
 . $venv/bin/activate
 ```
+
+para instalar dependências
+
+```sh
+pip3 install djangorestframework
+Pip install pandas
+pip install joblib==1.0.0
+pip install django-cors-headers
+pip install requests
+pip install tabulate
+pip install future
+# Required for plotting:
+pip install matplotlib
+pip install -f http://h2o-release.s3.amazonaws.com/h2o/latest_stable_Py.html h2o
+```
+
+
+Para inicializar o django_rest nos usos seguintes
+
+```sh
+cd django_rest
+. $venv/bin/activate
+python manage.py runserver 0.0.0.0:8000
+```
+
 
 Principais portas 
 
@@ -481,9 +509,7 @@ ports:
 [NodeManager](https://localhost:8042:8042)
 [Jupyter](https://localhost:8888:8888)
 [Spark](https://localhost:4040:4040)
-
-
-
+[DJANGO REST]  (https://localhost:8000:8000)
 
 
 # FMDEV-ROBERTO

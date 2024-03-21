@@ -3,7 +3,7 @@ from escola.models import Aluno, Curso, Matricula, Iris
 from escola.serializer import IrisSerializer, AlunoSerializer, CursoSerializer, MatriculaSerializer, ListaMatriculasAlunoSerializer, ListaAlunosMatriculadosSerializer
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
-from pyspark.sql import SparkSession
+#from pyspark.sql import SparkSession
 import requests
 from django.http import JsonResponse
 import h2o
@@ -21,8 +21,8 @@ def spark(request):
     columns = request.GET.get('columns', '')
     url = 'http://' + request.GET.get('url', '')
 
-    spark = SparkSession.builder.appName("FMDEV").getOrCreate()
-    sc = spark.sparkContext
+    #spark = SparkSession.builder.appName("FMDEV").getOrCreate()
+    #sc = spark.sparkContext
   
     def get_all_data(api_url):
         all_data = []
@@ -43,9 +43,9 @@ def spark(request):
 
     dados = get_all_data(url)
 
-    rdd = spark.sparkContext.parallelize(dados)
-    df = spark.read.json(rdd)
-    sc.stop()
+    #rdd = spark.sparkContext.parallelize(dados)
+    #df = spark.read.json(rdd)
+    #sc.stop()
 
 
     h2o.init()
