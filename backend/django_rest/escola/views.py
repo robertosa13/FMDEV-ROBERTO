@@ -48,7 +48,11 @@ def spark(request):
     #sc.stop()
 
 
-    h2o.init()
+
+    #h2o.init()
+    #h2o.init()
+    h2o.init(ip="localhost", port=54321)
+    
 
     churn_df = h2o.import_file('https://raw.githubusercontent.com/srivatsan88/YouTubeLI/master/dataset/WA_Fn-UseC_-Telco-Customer-Churn.csv')
     print(churn_df.types)

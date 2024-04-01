@@ -439,7 +439,6 @@ Para subir os containers
  docker exec -it master /bin/bash
 ```
 
-
 Renomear o container criado para "master".
 
 Na primeira vez o script vai configurar, formatar HDFS e inicializar Yarn, Hadoop e Spark
@@ -479,8 +478,14 @@ pip install matplotlib
 pip install -f http://h2o-release.s3.amazonaws.com/h2o/latest_stable_Py.html h2o
 ```
 
+Para incializar o h2o, acessar o terminal de cada máquina worker e executar
 
-Para inicializar o django_rest nos usos seguintes
+```sh
+cd h2o-3.46.0.1 
+java -Xmx3g -jar h2o.jar -port 54321 -flatfile flatfile.txt -name FMDEV
+```
+
+Para inicializar o django_rest nos usos seguintes, acessar o terminal da máquina master
 
 ```sh
 cd django_rest
@@ -500,6 +505,8 @@ ports:
       - "8888:8888" # Jupyter
       - "4040:4040" # Spark
       - "8000:8000" # django
+      - "54321:54321" # H2o
+
 ```
 
 [ResourceManager](https://localhost:8088:8088)
@@ -510,6 +517,5 @@ ports:
 [Jupyter](https://localhost:8888:8888)
 [Spark](https://localhost:4040:4040)
 [DJANGO REST]  (https://localhost:8000:8000)
-
 
 # FMDEV-ROBERTO

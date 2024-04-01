@@ -17,6 +17,7 @@ services:
       - "8888:8888" # Jupyter
       - "4040:4040" # Spark
       - "8000:8000" #django
+      - "54321:54321" # H2o
     networks: 
       spark-network:
         ipv4_address: 10.5.0.2

@@ -265,15 +265,11 @@ git push -u origin main
 
 git init
 git add --all
-git commit -m "Django rest no cluster - melhorias na doc"
+git commit -m "Melhorias no cluster"
 git remote add origin https://github.com/robertosa13/FMDEV-ROBERTO.git
 git branch -M main
 git push -u origin main
 git push --force origin main
-
-
-quando upar try_files
-git init
 
 */
 

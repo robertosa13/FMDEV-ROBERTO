@@ -223,11 +223,14 @@ class Indicators extends Component {
 
     const dataSourceContext = this.getDataSourceContext();
 
-    if(firstTime){
+    /*if(firstTime){
       //Carregar os dados do cluster uma única vez
       source = sourceCluster;
       IndicatorsOptions =  sourceCluster;      
-    } 
+    } */
+
+    source = sourceCluster;
+    IndicatorsOptions =  sourceCluster;     
 
     return (
       <ConfigContainer size='big'>
@@ -242,7 +245,7 @@ class Indicators extends Component {
                     <Header>
                       <h1>Selecione os indicadores</h1>
                       <div>
-                        <Button onClick={this.onSubmit.bind(this)}>EXECUTAR TREINAMENTO NO SPARK</Button>
+                        <Button onClick={this.onSubmit.bind(this)}>EXECUTAR TREINAMENTO EM CLUSTER</Button>
                       </div>
                     </Header>                              
                 </React.Fragment>

@@ -25,8 +25,8 @@ ENV SCALA_HOME=/usr/scala
 ENV PATH=$PATH:$SCALA_HOME/bin
 
 # Variaveis de ambiente do Spark
-#ENV SPARK_VERSION 3.3.0
-ENV SPARK_VERSION 3.5.1
+ENV SPARK_VERSION 3.3.0
+#ENV SPARK_VERSION 3.5.1
 ENV SPARK_HOME /usr/spark-${SPARK_VERSION}
 ENV SPARK_CONF_DIR=$SPARK_HOME/conf
 ENV SPARK_MASTER_HOST=master
@@ -85,17 +85,36 @@ RUN wget https://archive.apache.org/dist/hadoop/common/hadoop-3.3.3/hadoop-3.3.3
 #https://ftp.cc.uoc.gr/mirrors/apache/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_MINOR_VERSION}.tgz
 
 
-RUN wget https://dlcdn.apache.org/spark/spark-3.5.1/spark-3.5.1-bin-hadoop3.tgz \
-    && tar zvxf spark-3.5.1-bin-hadoop3.tgz -C /tmp/ \
+RUN wget https://archive.apache.org/dist/spark/spark-3.3.0/spark-3.3.0-bin-hadoop3.tgz \
+    && tar zvxf spark-3.3.0-bin-hadoop3.tgz -C /tmp/ \
     && mv /tmp/spark* $SPARK_HOME \
-    && rm spark-3.5.1-bin-hadoop3.tgz  \
+    && rm spark-3.3.0-bin-hadoop3.tgz  \
     && chown -R root:root ${SPARK_HOME}
 
 # Instalando Scala
 
+# Scala
+  
+RUN wget https://downloads.lightbend.com/scala/${SCALA_VERSION}/scala-${SCALA_VERSION}.tgz \
+    && tar -zvxf scala-${SCALA_VERSION}.tgz \
+    && rm scala-${SCALA_VERSION}.tgz \
+    && mv /scala-${SCALA_VERSION} /usr/scala \
+    && rm -rf /usr/scala/doc \
+    # Configurando o JAVA_HOME para os processos localizarem a instalação do Java
+    && echo "export JAVA_HOME=${JAVA_HOME}" >> /etc/environment
 
 
-# Keys dos nodes. Necessarias para se comunicarem por SSH
+#h2o
+RUN apt install unzip
+
+RUN wget --no-check-certificate http://h2o-release.s3.amazonaws.com/h2o/rel-3.46.0/1/h2o-3.46.0.1.zip \
+    && unzip h2o-3.46.0.1.zip\
+    && rm h2o-3.46.0.1.zip \
+    && cd h2o-3.46.0.1\
+    && wget -O flatfile.txt --no-check-certificate -r 'https://drive.google.com/uc?export=download&id=1R1xPaY8OC3aVdK-ojZoFMV5EEAG9LgaG' \
+    && cd ~
+    
+    
 RUN ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && \
     cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && \
     chmod 600 ~/.ssh/authorized_keys
@@ -113,7 +132,7 @@ COPY config/scripts /
 
 # Portas 10000:10002 relativas ao Hiveserver2
 # Portas 2181 2888 e 3888 relativas ao Zookeper, 9092 ao Kafka, 9999 webui do Hiveserver
-EXPOSE 9000 4040 8020 22 9083 10000 10001 10002 2181 2888 3888 9092 9999
+EXPOSE 9000 4040 8020 22 9083 10000 10001 10002 2181 2888 3888 9092 9999 54321 54322 54323 54324
 
 # Algumas configuracoes adicionais e inicio de alguns servicoes que devem ser feitos em
 # tempo de execucao estao presentes no script bootstrap.
