@@ -51,23 +51,37 @@ def spark(request):
 
     #h2o.init()
     #h2o.init()
-    h2o.init(ip="localhost", port=54321)
-    
+    #h2o.init(ip="localhost", port=54321)
+    h2o.init(ip="10.5.0.3", port=54321)
 
-    churn_df = h2o.import_file('https://raw.githubusercontent.com/srivatsan88/YouTubeLI/master/dataset/WA_Fn-UseC_-Telco-Customer-Churn.csv')
+
+    
+    #churn_df = h2o.import_file('https://raw.githubusercontent.com/srivatsan88/YouTubeLI/master/dataset/WA_Fn-UseC_-Telco-Customer-Churn.csv')
+    path = "usr/Dados/steam_reviews.csv"
+    steam_reviews.csv
+    steam_reviews.csv
+
+
+    steam_reviews.csv
+
+
+    churn_df = h2o.import_file(path)
     print(churn_df.types)
 
     churn_df.describe()
 
     churn_train,churn_test,churn_valid = churn_df.split_frame(ratios=[.7, .15])
 
-    y = "Churn"
-    x = churn_df.columns
+    #y = "Churn"
+    y = "recommended"
+    #x = churn_df.columns
+    x = "“steam_purchase,author_playtime_last_two_weeks,author_playtime_forever,author_num_games_owned,received_for_free”"
     x.remove(y)
-    x.remove("customerID")
+    #x.remove("customerID")
+    
 
     #verbosity="info",
-    aml = H2OAutoML(max_models = 10, seed = 10, exclude_algos = ["StackedEnsemble", "DeepLearning"],  nfolds=0)
+    aml = H2OAutoML(max_models = 3, seed = 10, exclude_algos = ["StackedEnsemble", "DeepLearning"],  nfolds=0)
 
     aml.train(x = x, y = y, training_frame = churn_train, validation_frame=churn_valid)
 

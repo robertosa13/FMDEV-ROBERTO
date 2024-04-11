@@ -265,7 +265,7 @@ git push -u origin main
 
 git init
 git add --all
-git commit -m "Melhorias no cluster"
+git commit -m "Nova versão do django lendo arquivos do HDFS"
 git remote add origin https://github.com/robertosa13/FMDEV-ROBERTO.git
 git branch -M main
 git push -u origin main

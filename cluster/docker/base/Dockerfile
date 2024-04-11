@@ -132,7 +132,7 @@ COPY config/scripts /
 
 # Portas 10000:10002 relativas ao Hiveserver2
 # Portas 2181 2888 e 3888 relativas ao Zookeper, 9092 ao Kafka, 9999 webui do Hiveserver
-EXPOSE 9000 4040 8020 22 9083 10000 10001 10002 2181 2888 3888 9092 9999 54321 54322 54323 54324
+EXPOSE 9000 4040 8020 22 9083 8020 10000 10001 10002 2181 2888 3888 9092 9999 54321 54322 54323 54324
 
 # Algumas configuracoes adicionais e inicio de alguns servicoes que devem ser feitos em
 # tempo de execucao estao presentes no script bootstrap.

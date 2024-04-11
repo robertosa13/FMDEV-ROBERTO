@@ -34,7 +34,7 @@ import filesize from "filesize";
 
 const availableLms = { moodle: true };
 
-const url = 'http://127.0.0.1:8000'; // ENDPOINT DA INTEGRAÇÃO
+const url = 'http://127.0.0.1:8000/arquivos'; // ENDPOINT DA INTEGRAÇÃO
 
 //chamada assicrona
 async function fetchData(url) {
@@ -45,25 +45,28 @@ async function fetchData(url) {
 
 var clusterItems = []
 
-async function getData() {
-  const data = await fetchData(url);
-  const TablesArray = Object.keys(data);
-  const urlsArray = TablesArray.map(key => data[key]);
-  
-    for (let i = 0; i < TablesArray.length; i++) {
-      clusterItems.push({
-        data: TablesArray[i].toString(),
-        name: urlsArray[i].toString(),
-        description: TablesArray[i].toString(),
-      });
-    }
-    
-   return clusterItems
+
+async function getdata(){
+  const response = await fetch(url);
+  const data = await response.json();
+  console.log(data.message.toString())
+
+  var fileNames = data.message.toString().split(',');
+  console.log(fileNames[0])
+
+  // Percorrendo cada nome de arquivo no array
+  for (var fileName of fileNames) {
+
+    clusterItems.push({
+      data: "/arquivos/",
+      name: fileName,
+      description: fileName,
+    });
+  }
+
 }
 
-getData();
-
-
+getdata()
 
 class DataSource extends Component {
 
