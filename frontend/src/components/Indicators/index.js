@@ -21,15 +21,13 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import { PickList } from 'primereact/picklist';
 
 var sourceCluster = [];
-var firstTime = true;
-var change = false;
 var IndicatorsOptions = [];
-
+var file = '';
 
 
 const fetchData = async (url) => {
   try {
-    const response = await fetch(url + '/?page=1');
+    const response = await fetch(url);
 
     if (!response.ok) {
       throw new Error(`Erro na solicitação: ${response.status}`);
@@ -46,44 +44,46 @@ const fetchData = async (url) => {
 async function getData(url) {
   
   const data = await fetchData(url);
+
   if (data) {
-    const objetos = data.results;
-     
-    if (objetos.length > 0) {
-      const propriedades = Object.keys(objetos[0]);
+    var colunas = data.message;
+    colunas = colunas.split(",");
+    sourceCluster = [];
 
-      sourceCluster = [];
-
-      for (let i = 1; i < propriedades.length; i++) {
-        const propriedade = propriedades[i];
-        const item = {
-          value: propriedade,
-          label: propriedade,
-        };
-        sourceCluster.push(item);
+    for(let i = 0; i < colunas.length; i++){
+      const item = {
+        value: colunas[i],
+        label: colunas[i]
       }
+
+      sourceCluster.push(item);
+    }
      return sourceCluster;
   }
 }
-}
-
 
 export var api_spark = ""; // Declaração da variável fora da classe
 
-
 class Indicators extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataLoaded: false // Estado para controlar se os dados foram carregados
+    };
+  }
 
   componentDidMount() {
     const dataSourceContext = this.getDataSourceContext();
 
     if(dataSourceContext === 'CLUSTER'){
-    var url = this.getDataURl();
-    var urlArray = url.split("//");
-    url = urlArray[0] + "//" + urlArray[1];
-    
-    if(firstTime){
-      getData(url);
-      } 
+    var file = this.getDataURl().split('/')[0];;
+    var url = "http://localhost:8000/colunas?file=" + file;
+
+    getData(url).then(dados => {
+      this.setState({ dataLoaded: true }); // Atualiza o estado quando os dados são carregados
+    });
+
     }
 
     if (dataSourceContext === LMS) {
@@ -96,7 +96,9 @@ class Indicators extends Component {
 
   getDataSourceContext = () => this.props.indicator.datasource ? this.props.indicator.datasource.split('/')[0] : null;
 
+
   getDataURl = () => this.props.indicator.datasource ? this.props.indicator.datasource.split('CLUSTER/')[1] : null;
+  //ok
 
   getDataSourceId = () => this.props.indicator.datasource ? this.props.indicator.datasource.split('/')[1] : null;
 
@@ -137,10 +139,7 @@ class Indicators extends Component {
 
   onPickListChange(event) {
 
-    firstTime = false;
-    change = true;
 
-    console.log(JSON.stringify(indicator.data));
 
     IndicatorsOptions = event.target;  
     this.props.setIndicator('source', event.source);
@@ -175,6 +174,7 @@ class Indicators extends Component {
       return;
     }
 
+
     filter.context = this.getDataSourceContext();
     filter.id = this.getDataSourceId();
     filter.target = targetSelected.value;
@@ -186,13 +186,10 @@ class Indicators extends Component {
     //MONTAR A API DO SPARK
 
     if(filter.context === 'CLUSTER'){
-      var url = this.getDataURl();
-      var urlArray = url.split("//");
-      url = urlArray[1];
-      api_spark = "http://localhost:8000/spark/?target=" + filter.target + "&columns=" + filter.indicators + "&url=" + url;
+      var file = this.getDataURl().split('/')[0];;
+      api_spark = "http://localhost:8000/treinamento?target=" + filter.target + "&columns=" + filter.indicators + "&file=" + file;
       console.log(api_spark);   
-      this.props.getPreProcessing(filter);
-      console.log("teste" + SPARK_PROCESSING)
+      //this.props.getPreProcessing(filter);
       setScreen(ADD_TRAIN, SPARK_PROCESSING);
 
         
@@ -217,18 +214,16 @@ class Indicators extends Component {
 
 
   render() {
+
+    if (!this.state.dataLoaded) {
+      return <div></div>; 
+    }
+
     var { course, subject, semester, indicator } = this.props;
     var { source, indicators, targetSelected, courseSelected,
       subjectSelected, semesterSelected } = this.props.indicator;
 
     const dataSourceContext = this.getDataSourceContext();
-
-    /*if(firstTime){
-      //Carregar os dados do cluster uma única vez
-      source = sourceCluster;
-      IndicatorsOptions =  sourceCluster;      
-    } */
-
     source = sourceCluster;
     IndicatorsOptions =  sourceCluster;     
 

@@ -31,6 +31,8 @@ import IconButton from '@material-ui/core/IconButton';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import AlertDialog from '../AlertDialog';
 import filesize from "filesize";
+import PopupComponent from '../PopupComponent/PopupComponent';
+
 
 const availableLms = { moodle: true };
 
@@ -72,11 +74,21 @@ class DataSource extends Component {
 
   state = {
     selectedItem: null,
-    chipSelected: LMS
+    chipSelected: LMS,
+    openPopup: false,
+    selectedItemName: '',
   }
 
   componentWillMount() {
     this.props.getDataSource();
+  }
+
+  openItemNamePopup = (itemName) => {
+    this.setState({ openPopup: true, selectedItemName: itemName });
+  }
+
+  closePopup = () => {
+    this.setState({ openPopup: false });
   }
 
   openDialogConfig = (item, event) => {
@@ -89,6 +101,11 @@ class DataSource extends Component {
       }
     })
   }
+
+  openItemNamePopup = (itemName) => {
+    this.setState({ openPopup: true, selectedItemName: itemName });
+  }
+  
 
   renderCardLMS = (item, idx) => (
     <Card className='lms-card' key={idx} style={{ opacity: availableLms[item.name] ? 1 : .3 }}>
@@ -129,8 +146,8 @@ class DataSource extends Component {
        <IconButton onClick={this.goToIndicators.bind(this, CLUSTER, item.name, item.description)}>
           <PlayIcon size={20} color={'#FFF'} />
         </IconButton>
-        <IconButton onClick={() => window.open(item.name, '_blank')}>
-          <EyeIcon  size={20} color={'#FFF'} />
+        <IconButton onClick={() => this.openItemNamePopup(item.name)}>
+          <EyeIcon size={20} color={'#FFF'} />
         </IconButton>
       </CardActions>
     </Card>
@@ -230,6 +247,12 @@ class DataSource extends Component {
     const loading = !!data_source.loading;
     const hasData = !!data_source.data.length;
 
+    const { openPopup, selectedItemName } = this.state;
+
+   
+     
+  
+
     return (
       <PerfectScrollbar style={{ width: '100%' }}>
         <ConfigContainer style={{ minHeight: '70%' }}>
@@ -266,11 +289,18 @@ class DataSource extends Component {
           {chipSelected === CSV && !hasData && !loading && (
             <StatusMsgContainer>Nenhuma fonte de dados cadastrada</StatusMsgContainer>
           )}
+             <PopupComponent
+              isOpen={openPopup}
+              handleClose={this.closePopup}
+              selectedItemName={this.state.selectedItemName}
+            />
         </ConfigContainer>
         <MoodleConfigDialog />
         <DataSourceDialog />
         <AlertDialog onSubmit={this.handleDelete}></AlertDialog>
       </PerfectScrollbar>
+
+ 
     );
   }
 }

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # clean possible previous process
-#$HADOOP_HOME/sbin/stop-all.sh
-#$HADOOP_HOME/sbin/stop-all.sh
+$HADOOP_HOME/sbin/stop-all.sh
+$HADOOP_HOME/sbin/stop-all.sh
 
 echo "=== Hadoop daemons ==="
 $HADOOP_HOME/sbin/start-all.sh

@@ -54,6 +54,16 @@ def colunas(request):
     data = {"message": decoded_out}
     return JsonResponse(data)
 
+
+
+def dados(request):
+    file = request.GET.get('file', '')
+    (ret, out, err)= run_cmd_pipes('hdfs dfs -cat /arquivos/' + file + ' | head -n 6')
+    decoded_out = str(out.replace("\n", "\n"))
+    
+    data = {"message": decoded_out}
+    return JsonResponse(data)
+
 def treinamento(request):
     print("inicio")
 
@@ -81,7 +91,8 @@ def treinamento(request):
     #x.remove("customerID")
     
     #verbosity="info",
-    aml = H2OAutoML(max_models = 10, seed = 10, exclude_algos = ["StackedEnsemble", "DeepLearning"],  nfolds=0)
+    #aml = H2OAutoML(max_models = 10, seed = 10, exclude_algos = ["StackedEnsemble", "DeepLearning"],  nfolds=0)
+    aml = H2OAutoML(max_models = 2, seed = 10, include_algos = ["DRF"],  nfolds=0)
 
     aml.train(x = x, y = y, training_frame = train, validation_frame=valid)
 
