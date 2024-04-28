@@ -265,7 +265,7 @@ git push -u origin main
 
 git init
 git add --all
-git commit -m "pop-up para mostrar as 5 primeiras linhas dos arquivos no HDFS e também configuração da rota no django para retornar os 5 primeiros dados"
+git commit -m "Limpando o readme do cluster"
 git remote add origin https://github.com/robertosa13/FMDEV-ROBERTO.git
 git branch -M main
 git push -u origin main

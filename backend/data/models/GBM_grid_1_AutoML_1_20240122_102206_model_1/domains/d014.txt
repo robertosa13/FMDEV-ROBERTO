@@ -1,4 +1,0 @@
-Bank transfer (automatic)
-Credit card (automatic)
-Electronic check
-Mailed check
