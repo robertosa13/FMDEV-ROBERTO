@@ -2,14 +2,17 @@ from django.http import JsonResponse
 import subprocess
 import re
 import requests
-from django.http import JsonResponse
 import h2o
 from h2o.automl import H2OAutoML
 import joblib
 import zipfile
 import os
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework.decorators import api_view
 
 
+@swagger_auto_schema(method='get', operation_summary='Executa comandos no sistema Linux')
+@api_view(['GET'])
 def run_cmd(args_list):
         """
         run linux commands
@@ -22,6 +25,8 @@ def run_cmd(args_list):
         return s_return, s_output, s_err 
 
 
+@swagger_auto_schema(method='get', operation_summary='Executa comandos no sistema Linux com pipes')
+@api_view(['GET'])
 def run_cmd_pipes(cmd):
     """
     Run linux commands that can include pipes.
@@ -34,6 +39,9 @@ def run_cmd_pipes(cmd):
 
     return s_return, s_output, s_err
 
+
+@swagger_auto_schema(method='get', operation_summary='Lista arquivos CSV em um diretório HDFS')
+@api_view(['GET'])
 def arquivos(request):
 
     #Comando para buscar todos os arquivos no diretório hdfs arquivs
@@ -46,6 +54,8 @@ def arquivos(request):
     data = {"message": arquivos_csv}  
     return JsonResponse(data)
 
+@swagger_auto_schema(method='get', operation_summary='Obtém as colunas do arquivo CSV especificado no HDFS')
+@api_view(['GET'])
 def colunas(request):
     file = request.GET.get('file', '')
     (ret, out, err)= run_cmd_pipes('hdfs dfs -cat /arquivos/' + file + ' | head -n 1')
@@ -54,6 +64,20 @@ def colunas(request):
     data = {"message": decoded_out}
     return JsonResponse(data)
 
+
+@swagger_auto_schema(method='get', operation_summary='Exibe as primeiras seis linhas do arquivo CSV no HDFS')
+@api_view(['GET'])
+def dados(request):
+    file = request.GET.get('file', '')
+    (ret, out, err)= run_cmd_pipes('hdfs dfs -cat /arquivos/' + file + ' | head -n 6')
+    decoded_out = str(out.replace("\n", "\n"))
+    
+    data = {"message": decoded_out}
+    return JsonResponse(data)
+
+
+@swagger_auto_schema(method='post', operation_summary='Executa treinamento de modelos.')
+@api_view(['POST'])
 def treinamento(request):
     print("inicio")
 
@@ -81,7 +105,8 @@ def treinamento(request):
     #x.remove("customerID")
     
     #verbosity="info",
-    aml = H2OAutoML(max_models = 10, seed = 10, exclude_algos = ["StackedEnsemble", "DeepLearning"],  nfolds=0)
+    #aml = H2OAutoML(max_models = 10, seed = 10, exclude_algos = ["StackedEnsemble", "DeepLearning"],  nfolds=0)
+    aml = H2OAutoML(max_models = 2, seed = 10, include_algos = ["DRF"],  nfolds=0)
 
     aml.train(x = x, y = y, training_frame = train, validation_frame=valid)
 
@@ -102,7 +127,3 @@ def treinamento(request):
     resultado = f"lb: {lb}"
   
     return JsonResponse({'resultado': resultado})
-
-
-
-

@@ -2,9 +2,7 @@ FROM openjdk:8-jdk-slim
 
 ENV SHARED_FOLDER="user_data"
 
-# variáveis adicionadas a partir do stackoverflow
-# https://stackoverflow.com/questions/48129029/hdfs-namenode-user-hdfs-datanode-user-hdfs-secondarynamenode-user-not-defined
-ENV HDFS_NAMENODE_USER="root"
+
 ENV HDFS_DATANODE_USER="root"
 ENV HDFS_SECONDARYNAMENODE_USER="root"
 ENV YARN_RESOURCEMANAGER_USER="root"
@@ -12,7 +10,6 @@ ENV YARN_NODEMANAGER_USER="root"
 ENV YARN_HOME=$HADOOP_HOME
 
 # Variaveis de ambiente do Hadoop
-#ENV HADOOP_VERSION 3.3.3
 ENV HADOOP_VERSION 3.3.3
 ENV HADOOP_MINOR_VERSION 3
 ENV HADOOP_HOME /usr/hadoop-$HADOOP_VERSION
@@ -26,7 +23,6 @@ ENV PATH=$PATH:$SCALA_HOME/bin
 
 # Variaveis de ambiente do Spark
 ENV SPARK_VERSION 3.3.0
-#ENV SPARK_VERSION 3.5.1
 ENV SPARK_HOME /usr/spark-${SPARK_VERSION}
 ENV SPARK_CONF_DIR=$SPARK_HOME/conf
 ENV SPARK_MASTER_HOST=master
@@ -53,12 +49,6 @@ RUN apt-get update \
     python3 python3-pip python3-dev python-is-python3 \
     build-essential libssl-dev libffi-dev libpq-dev
 
-# Instalando JupyterLab e outras dependências Python
-# RUN pip install jupyterlab notebook \
-#     && python3 -m pip install -r requirements.txt \
-#     && python3 -m pip install dask[bag] --upgrade \
-#     && python3 -m pip install --upgrade toree \
-#     && python3 -m bash_kernel.install
 
 # Scala
 RUN  wget https://downloads.lightbend.com/scala/${SCALA_VERSION}/scala-${SCALA_VERSION}.tgz 
