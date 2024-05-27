@@ -265,7 +265,7 @@ git push -u origin main
 
 git init
 git add --all
-git commit -m "ajustes na pasta  django fmdev"
+git commit -m "arquivo churn.csv"
 git remote add origin https://github.com/robertosa13/FMDEV-ROBERTO.git
 git branch -M main
 git push -u origin main
