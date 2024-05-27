@@ -9,6 +9,7 @@
   justify-content: space-between; /* Distribuir espaço entre os grupos */
   gap: 10px; /* Espaço entre os grupos de campos */
   flex-wrap: wrap; /* Quebra a linha quando não houver espaço suficiente */
+  align-items: flex-start; /* Alinha todos os itens à esquerda */
 }
 
 /* Estilo para os grupos de campos */
@@ -23,6 +24,8 @@
 .label-style {
   font-weight: bold;
   color: #4A5173; /* Cor do texto azul */
+  min-width: 150px; /* Largura mínima para todos os rótulos */
+
 }
 
 /* Estilo para os inputs */
@@ -33,5 +36,7 @@
   text-align: left; /* Texto alinhado à esquerda */
   width: 100%; /* Define a largura do input para preencher o espaço disponível no grupo de campos */
   background-color: #f0f0f0; /* Cor de fundo cinza claro */
+  width: 100%; /* Faz com que a largura dos inputs e labels seja consistente */
+  margin-bottom: 10px; /* Espaçamento entre os campos */
 
 }

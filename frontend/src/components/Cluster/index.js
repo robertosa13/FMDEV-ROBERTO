@@ -5,18 +5,14 @@ import { Header } from "../../styles/global";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { LeftContent, SelectContainer, Content, Separator } from "./styles";
 import Button from "../../styles/Button";
-import "./ButtonGrid.css"; // Import the CSS file
-import "./stylestwo.css"; // Importe o arquivo de estilos
-
-//import './Cluster.css'
-
-//control + space
+import "./ButtonGrid.css"; 
+import "./stylestwo.css"; 
 
 class ConfigurarIntegracao extends Component {
   state = {
     url: "Valor Padrão do IP",
     token: "Valor Padrão da Chave de API",
-    version: null, // Deixe null se não tiver uma versão selecionada inicialmente
+    version: null, 
   };
 
   handleChangeInput = (e) => {
@@ -38,43 +34,38 @@ const Formulario = () => {
 
         <Content>
           <LeftContent>
-            <div className="button-grid">
-              <Button onClick={() => {}}>Resource Manager</Button>
-              <Button onClick={() => {}}>NameNode WebUI</Button>
-              <Button onClick={() => {}}>HDFS</Button>
-              <Button onClick={() => {}}>WebUI Spark Master</Button>
-              <Button onClick={() => {}}>Node Manager</Button>
-              <Button onClick={() => {}}>Jupyter</Button>
-              <Button onClick={() => {}}>Spark</Button>
-            </div>
+          <div className="button-grid">
+            <Button onClick={() => window.open('http://localhost:8088/cluster', '_blank')}>Hadoop</Button>
+            <Button onClick={() => window.open('http://localhost:50070/dfshealth.html#tab-overview', '_blank')}>HDFS</Button>
+            <Button onClick={() => window.open('http://localhost:8080', '_blank')}>WebUI Spark Master</Button>
+          </div>
           </LeftContent>
           <Separator> </Separator>
-
           <div className="form-content">
             {" "}
             {/* Aplicando a classe form-content */}
             <div>
               <label htmlFor="url" className="label-style">
-                NODE MASTER IP:
+                Master IP Adress:
               </label>
               <input
                 type="text"
                 id="url"
                 name="url"
                 className="input-style"
-                defaultValue="172.18.0.4"
+                defaultValue="10.5.0.2"
               />
             </div>
             <div>
               <label htmlFor="port" className="label-style">
-                Port:
+                Django Port:
               </label>
               <input
                 type="text"
                 id="port"
                 name="port"
                 className="input-style"
-                defaultValue="80:80"
+                defaultValue="8000"
               />
             </div>
             <div>
@@ -98,7 +89,7 @@ const Formulario = () => {
                 id="hadoop"
                 name="hadoop"
                 className="input-style"
-                defaultValue="2.7.0"
+                defaultValue="3.3.3"
               />
             </div>
             <div>
@@ -110,19 +101,19 @@ const Formulario = () => {
                 id="spark"
                 name="spark"
                 className="input-style"
-                defaultValue="2.4.8"
+                defaultValue="3.3.0"
               />
             </div>
           <div>
             <label htmlFor="mode" className="label-style">
-              Endpoint:
+              Endpoint Django Rest:
             </label>
             <input
               type="text"
               id="endpoint"
               name="endpoint"
               className="input-style"
-              defaultValue="spark://172.18.0.4:7077"
+              defaultValue="https:localhost:8000"
             />
           </div>
           </div>
