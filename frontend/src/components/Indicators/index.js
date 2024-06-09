@@ -157,7 +157,7 @@ class Indicators extends Component {
   onSubmit = () => {
     let filter = {};
     const { setScreen } = this.props;
-    const { indicators, targetSelected, courseSelected, subjectSelected, semesterSelected } = this.props.indicator;
+    const { indicators, targetSelected, courseSelected, subjectSelected, semesterSelected, kSelected, algoritmsSelected} = this.props.indicator;
 
     if (!targetSelected || !targetSelected.value) {
       this.renderWarningMsg('Selecione um indicador alvo');
@@ -182,12 +182,20 @@ class Indicators extends Component {
     filter.subjects = this.getValueFromSelect(subjectSelected);
     filter.semesters = this.getValueFromSelect(semesterSelected);
     filter.indicators = this.getValueFromSelect(indicators);
+    filter.k = kSelected.value;
+    filter.algoritms = algoritmsSelected.value;
+
+    
 
     //MONTAR A API DO SPARK
 
     if(filter.context === 'CLUSTER'){
-      var file = this.getDataURl().split('/')[0];;
-      api_spark = "http://localhost:8000/treinamento?target=" + filter.target + "&columns=" + filter.indicators + "&file=" + file;
+      var file = this.getDataURl().split('/')[0];
+
+      var algoritmos = algoritmsSelected.map(item => item.value).join(',');
+
+      api_spark = "http://localhost:8000/treinamento?target=" + filter.target + "&columns=" + filter.indicators + "&file=" + file
+      + "&k=" + filter.k + "&algorithms=" + algoritmos;
       console.log(api_spark);   
       //this.props.getPreProcessing(filter);
       setScreen(ADD_TRAIN, SPARK_PROCESSING);
@@ -221,7 +229,7 @@ class Indicators extends Component {
 
     var { course, subject, semester, indicator } = this.props;
     var { source, indicators, targetSelected, courseSelected,
-      subjectSelected, semesterSelected } = this.props.indicator;
+      subjectSelected, semesterSelected, kSelected, algoritmsSelected } = this.props.indicator;
 
     const dataSourceContext = this.getDataSourceContext();
     source = sourceCluster;
@@ -319,7 +327,43 @@ class Indicators extends Component {
                 styles={selectStyle}
                 options={IndicatorsOptions} />
             </SelectContainer>
-                
+
+            <SelectText>Número de validação cruzada</SelectText>
+            <SelectContainer>
+                <Select
+                  isClearable
+                  value={kSelected}
+                  noOptionsMessage={() => 'Sem dados'}
+                  onChange={(e) => this.handleChange(e, 'kSelected')}
+                  placeholder={'Número K'}
+                  styles={selectStyle}
+                  options={[
+                    {value: "0", label: "0"},
+                    {value: "2", label: "2"}, 
+                    {value: "3", label: "3"},
+                    {value: "4", label: "4"},
+                    {value: "5", label: "5"},                  
+                  ]}
+                />
+             </SelectContainer>
+
+             <SelectText>Algoritmos</SelectText>
+             <SelectContainer>
+                <Select
+                  isClearable
+                  isMulti  // Habilita a seleção de múltiplos valores
+                  value={algoritmsSelected}
+                  noOptionsMessage={() => 'Sem dados'}
+                  onChange={(e) => this.handleChange(e, 'algoritmsSelected')}
+                  placeholder={'Selecione os algoritmos'}
+                  styles={selectStyle}
+                  options={[
+                    { value: "DRF", label: "Distributed Random Forest" },
+                    { value: "GLM", label: "Gradient Linearized model" },
+                    { value: "XGBoost", label: "XGBoost"},
+                  ]}
+                />
+              </SelectContainer>              
                 </React.Fragment>
               )}
 

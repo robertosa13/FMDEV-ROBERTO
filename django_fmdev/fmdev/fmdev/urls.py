@@ -11,11 +11,11 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Documentação API FMD",
+      title="Documentação API FMDEV",
       default_version='v1',
-      description="Documentação do FMD django rest",
+      description="Documentação do FMDEV django rest",
       terms_of_service="",
-      contact=openapi.Contact(email="rsbpc@ecomp.poli.br"),
+      contact=openapi.Contact(email="rsbpc@ecomp.poli.br, robertosapaiva@hotmail.com"),
       license=openapi.License(name="BSD License"),
    ),
    public=True,
@@ -29,6 +29,7 @@ urlpatterns = [
     path('colunas', views.colunas, name='colunas'),
     path('treinamento', views.treinamento, name='treinamento'),
     path('dados', views.dados, name='dados'),
+    path('modelo', views.modelo, name='modelo'),
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),

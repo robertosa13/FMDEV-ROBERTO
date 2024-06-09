@@ -1,7 +1,9 @@
 from django.http import JsonResponse
+from django.http import FileResponse, Http404
 import subprocess
 import re
 import requests
+from django.http import JsonResponse
 import h2o
 from h2o.automl import H2OAutoML
 import joblib
@@ -11,13 +13,8 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.decorators import api_view
 
 
-@swagger_auto_schema(method='get', operation_summary='Executa comandos no sistema Linux')
-@api_view(['GET'])
 def run_cmd(args_list):
-        """
-        run linux commands
-        """
-        # import subprocess
+        
         print('Running system command: {0}'.format(' '.join(args_list)))
         proc = subprocess.Popen(args_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         s_output, s_err = proc.communicate()
@@ -25,12 +22,8 @@ def run_cmd(args_list):
         return s_return, s_output, s_err 
 
 
-@swagger_auto_schema(method='get', operation_summary='Executa comandos no sistema Linux com pipes')
-@api_view(['GET'])
 def run_cmd_pipes(cmd):
-    """
-    Run linux commands that can include pipes.
-    """
+    
     print(f'Running system command: {cmd}')
     proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
   
@@ -75,44 +68,35 @@ def dados(request):
     data = {"message": decoded_out}
     return JsonResponse(data)
 
-
-@swagger_auto_schema(method='post', operation_summary='Executa treinamento de modelos.')
-@api_view(['POST'])
+@swagger_auto_schema(method='GET', operation_summary='Executa treinamento de modelos.')
+@api_view(['GET'])
 def treinamento(request):
-    print("inicio")
-
+    
+    k = request.GET.get('k', '')
+    algorithms = request.GET.get('algorithms', '').split(',')
     file = request.GET.get('file', '')
     path = 'hdfs://master:/arquivos/' + file
-    print(path)
     target = request.GET.get('target', '')
     columns = request.GET.get('columns', '').split(',')
-    print(target)
-    print(columns)
+    algorithms = request.GET.get('algorithms', '').split(',')
+
 
     h2o.init(ip="10.5.0.3", port=54321)
-    df = h2o.import_file(path = path)
+    df = h2o.import_file(path = path, col_types={target: 'enum'})
     df.describe()
 
     train,test,valid = df.split_frame(ratios=[.7, .15])
 
-    #y = "Churn"
     y = target
-    #x = churn_df.columns
-    x =  df.columns
-    print(df.columns)
-    print(x)
+    x = df.columns
     x.remove(y)
-    #x.remove("customerID")
     
-    #verbosity="info",
-    #aml = H2OAutoML(max_models = 10, seed = 10, exclude_algos = ["StackedEnsemble", "DeepLearning"],  nfolds=0)
-    aml = H2OAutoML(max_models = 2, seed = 10, include_algos = ["DRF"],  nfolds=0)
-
+    aml = H2OAutoML(max_models = 10, seed = 10, include_algos = algorithms, verbosity = "debug", nfolds=int(k))
     aml.train(x = x, y = y, training_frame = train, validation_frame=valid)
 
-    churn_pred=aml.leader.predict(test)
+    pred=aml.leader.predict(test)
 
-    churn_pred.head()
+    pred.head()
 
     aml.leader.model_performance(test)
 
@@ -121,9 +105,20 @@ def treinamento(request):
     lb = aml.leaderboard
     best_model = aml.leader
     print("Melhor modelo:", best_model.model_id)
-    model_path = aml.leader.download_mojo(path = "/Users/roberto/fmdev/backend/data/models/") 
+    model_path = aml.leader.download_mojo(path = "/fmdev/fmdev/models/") 
 
-    #resultado = f"model_path: {model_path}, best_model: {best_model.model_id}, lb: {lb}"  
     resultado = f"lb: {lb}"
   
     return JsonResponse({'resultado': resultado})
+
+@swagger_auto_schema(method='get', operation_summary='Baixa o melhor modelo treinado')
+@api_view(['GET'])
+def modelo(request):
+    model = request.GET.get('model', '')
+    file_path = os.path.join('/fmdev/fmdev/models/', model)
+    if os.path.exists(file_path):
+        response = FileResponse(open(file_path, 'rb'), as_attachment=True, filename=model)
+        return response
+    else:
+        raise Http404("File does not exist")
+
